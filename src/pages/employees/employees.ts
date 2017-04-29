@@ -44,7 +44,7 @@ export class EmployeesPage {
 				data.EmployeeData.forEach((employee) => {
 					this.body = {
 						"userid": employee.companyId,
-						"employeeNo":employee.employeeNo
+						"employeeNo ":employee.employeeNo
 					}
 					console.log("employee", employee);
 					this.http.post('http://192.241.230.86/userCurrentCheckin', this.body, { headers: this.contentHeader })
