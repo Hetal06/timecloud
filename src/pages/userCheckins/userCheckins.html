@@ -1,0 +1,38 @@
+
+<ion-header >
+
+  <ion-navbar hideBackButton color="primary">
+   <ion-buttons  left>
+    <button ion-button navPop icon-only>
+     <ion-icon name="home"></ion-icon>
+   </button>
+ </ion-buttons>
+ <ion-title>Time Cloud</ion-title>
+</ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-list style="text-align: center;">
+
+   <span class="setSpan">
+    <img src="../../assets/icon/Icon-user.png" class="img">
+    <h3 class="setStyle">{{empSingleRec.firstName}} &nbsp;{{empSingleRec.lastName}} &nbsp;</h3>
+
+    <!-- <button ion-button color="danger">{{status}}</button> -->
+  </span>
+  <ion-label class="label label-danger status">{{status}}</ion-label>
+
+  <!-- /  <ion-label>Identifer <span danger>*</span></ion-label> -->
+
+
+  <div class="setDiv">
+  	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button ion-button color="success" (click)="clickInOut(in)" >IN</button>
+    <button ion-button color="danger" (click)="clickInOut(out)">OUT</button><br>
+    <button ion-button color="warning" (click)="clickInOut(startBreak)">START BREAK</button>
+    <button ion-button color="danger" (click)="clickInOut(endBreak)">END	 BREAK</button>
+  </div>
+  <button ion-button round color="cancle" class="btn">cancle</button>
+</ion-list>
+</ion-content>

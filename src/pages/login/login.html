@@ -1,0 +1,43 @@
+    <ion-header>
+    <ion-toolbar color="primary">
+        <ion-title >
+            Login
+        </ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-content padding>
+    <div class="logo">
+        <img src="assets/icon/favicon.ico" alt="Ionic logo">
+    </div>
+        <form [formGroup]="login" (ngSubmit)="logForm()" novalidate>
+        <ion-list no-lines>
+            <ion-item>
+                <ion-label floating color="primary">Email</ion-label>
+                <ion-input formControlName="email" name="email" [class.invalid]="!login.controls.email.valid && (login.controls.email.dirty )" type="text" spellcheck="true" autocapitalize="off"
+                    required>
+                </ion-input>
+            </ion-item>
+            <ion-item *ngIf="!login.controls.email.valid  && (login.controls.email.dirty)">
+                <p class="err-msg">Please enter a valid Username.</p>
+            </ion-item>
+            <ion-item>
+                <ion-label floating color="primary">Password</ion-label>
+                <ion-input formControlName="pwd" name="pwd" [class.invalid]="!login.controls.pwd.valid && (login.controls.pwd.dirty)" type="password" required>
+                </ion-input>
+            </ion-item>
+            <ion-item *ngIf="!login.controls.pwd.valid  && (login.controls.pwd.dirty)">
+                <p class="err-msg">Please enter a valid Password.</p>
+            </ion-item>
+        </ion-list>
+
+        <ion-row responsive-sm>
+            <ion-col>
+                <button ion-button type="submit" [disabled]="!login.valid">Submit</button>
+            </ion-col>
+            <!-- <ion-col>
+                <button ion-button (click)="onSignup()" color="light" block>Signup</button>
+            </ion-col> -->
+        </ion-row>
+    </form>
+</ion-content>

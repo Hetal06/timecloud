@@ -1,0 +1,50 @@
+.setDiv
+{
+	height: 100%;
+    display: block;
+    vertical-align: middle;
+    align-items: center;
+    width: 100%;
+    padding-left: 0px;
+    padding-top: 200px;
+    font-size: xx-large;
+}
+.img{
+    height:3.8cm;
+	padding-top:80px;
+	padding-right: 4px;
+    max-width: 13%;
+}
+.setSpan{
+    display: inline;
+    min-width: 3.2cm;
+    height: 3.8cm;
+    align-items: center;
+    padding-left:0px !important;
+    vertical-align: -webkit-baseline-middle;
+}
+.setStyle{
+    text-transform: capitalize;
+    display: inline-block;
+    vertical-align: bottom;
+    inline-size: initial;
+    text-underline-position: inherit;
+    margin-top: 9.6rem;
+    margin-bottom: 1rem;
+    font-weight: inherit;
+    line-height: 1.2;
+}
+.status{
+    margin: -34px -199px -57px 15px;
+    color: red;
+    padding: 0 .6em;
+    height: 25px;
+    font-size: 2.2rem;
+    
+  /*  padding: 0.2em 0.6em 0.3em;    
+    border-radius: 0;*/
+}
+.btn{
+    padding: 20px 10.6rem;
+    border-radius: 200px;
+}
