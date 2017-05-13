@@ -17,7 +17,7 @@
 
    <span class="setSpan">
     <img src="../../assets/icon/Icon-user.png" class="img">
-    <h3 class="setStyle">{{empSingleRec.firstName}} &nbsp;{{empSingleRec.lastName}} &nbsp;</h3>
+    <h3 class="setStyle"> {{empSingleRec.firstName}} &nbsp;{{empSingleRec.lastName}} &nbsp;</h3>
 
     <!-- <button ion-button color="danger">{{status}}</button> -->
   </span>
@@ -28,11 +28,16 @@
 
   <div class="setDiv">
   	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button ion-button color="success" (click)="clickInOut(in)" >IN</button>
-    <button ion-button color="danger" (click)="clickInOut(out)">OUT</button><br>
-    <button ion-button color="warning" (click)="clickInOut(startBreak)">START BREAK</button>
-    <button ion-button color="danger" (click)="clickInOut(endBreak)">END	 BREAK</button>
+    <button ion-button color="success" 
+    (click)="checkInOut('IN',empSingleRec.employeeNo)" >IN</button>
+    <button ion-button color="danger"  
+    (click)="checkInOut('OUT',empSingleRec.employeeNo)">OUT</button><br>
+    <button ion-button color="warning" 
+    (click)="checkInOut(3,empSingleRec.employeeNo)">START BREAK</button>
+    <button ion-button color="danger" 
+    (click)="checkInOut(2,empSingleRec.employeeNo)">END	 BREAK</button>
   </div>
-  <button ion-button round color="cancle" class="btn">cancle</button>
+  <button ion-button round color="cancle" class="btn" (click)="cancleBtn();">cancle</button>
+  
 </ion-list>
 </ion-content>

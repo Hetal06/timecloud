@@ -13,7 +13,7 @@ import 'rxjs/add/operator/map';
 
 @Component({
 		selector: 'page-login',
-	templateUrl: 'login.html',
+		templateUrl: 'login.html',
 })
 
 @Injectable()
@@ -25,7 +25,8 @@ export class LoginPage {
 	logins: { email?: string, pwd?: string } = {};
 	data: any;
 	user: String;
-	LOGIN_URL: string = "http://192.241.230.86/mobileLogin";
+	
+	LOGIN_URL: string = "http://localhost:4000/mobileLogin";
 	
 	contentHeader: Headers = new Headers({ "Content-Type": "application/json" });
 	// jwtHelper: JwtHelper = new JwtHelper();
@@ -47,7 +48,7 @@ export class LoginPage {
 
 		this.email = this.login.controls['email'];
 		this.pwd = this.login.controls['pwd'];
-		console.log("logout method run");
+		console.log("logout mcd ethod run");
 		
 
 	}
@@ -68,9 +69,18 @@ export class LoginPage {
 		this.http.post(this.LOGIN_URL, this.data, { headers: this.contentHeader })
 			.map(res => res.json())
 			.subscribe(
-			data => this.authSuccess(data.user),
+			data => this.authSuccess(data),
 			err => this.error = err
 			);
+			// .map(res => res.json())
+			// .subscribe(
+			// data => {
+			// 	console.log("line 73------", data.token);
+			// 	data => this.authSuccess(data.token)
+			// },
+			// err => this.error = err
+			// );
+			
 
 		
 
@@ -80,15 +90,27 @@ export class LoginPage {
 
 	}
 
-	authSuccess(token) {
+	authSuccess(data) {
 		this.error = null;
-		localStorage.setItem("loginId", token);
 		
-		console.log("data", token);
-		if(token){
-			this.navCtrl.push(EmployeesPage);
+		localStorage.setItem("loginToken", data.token);
+		localStorage.setItem("userId", data.user);
+		localStorage.setItem("loginEmail", data.email);
+		
+		// console.log("----line 97 data", data);
+		// console.log("----line 98 data token", data.token);
+		 // console.log("----line 99 data user", data.user);
+		// console.log("----line 100 data email", data.email);
+
+		// localStorage.setItem("loginId", token);
+		
+		
+		if (localStorage.getItem("loginToken")) {
 			console.log("success!");
+			this.navCtrl.push(EmployeesPage);
+			
 		}else{
+			// this.navCtrl.push();
 			console.log("invalid email and pwd");
 		}
 		// this.local.set('id_token', token);

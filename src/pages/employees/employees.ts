@@ -1,10 +1,24 @@
-import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import {
+	Component
+} from '@angular/core';
+import {
+	NavController,
+	AlertController,
+	NavParams
+} from 'ionic-angular';
 // import { LoginPage } from '../login/login';
-import { Http,Headers } from '@angular/http';
-import { Offline } from '../../providers/offline';
-import { EmployeeServicePage } from '../../providers/employee-service';
-import { UserCheckinsPage } from '../userCheckins/userCheckins';
+import {
+	Http,
+	Headers
+} from '@angular/http';
+import {
+	Offline
+} from '../../providers/offline';
+import {
+	EmployeeServicePage
+} from '../../providers/employee-service';
+import {UserCheckinsPage} from '../userCheckins/userCheckins';
+import { LoginPage } from '../login/login';
 /*
   Generated class for the Employees page.
 
@@ -17,159 +31,165 @@ import { UserCheckinsPage } from '../userCheckins/userCheckins';
 })
 export class EmployeesPage {
 	public currentUserStatus: any;
+	public set_selected_status: any;
 	public employees: any;
 	public status: any;
 	public body;
-	loginId = localStorage.getItem("loginId");
-	// GetEmployee_URL: string = "http://localhost:3000/employeeHomeData/loginId";
-	contentHeader: Headers = new Headers({ "Content-Type": "application/json"});
+	public employeeList: any;
+	public employeeCheckIns: any;
+	public employeeAttendance: any;
+	public empStatusUpdate: any;
+	public attandanceCheckIns: any;
+	public attandanceCheckType: any;
+	public checkins: any;
+	loginToken = localStorage.getItem("loginToken");
+	loginId = localStorage.getItem("userId");
+	loginEmail = localStorage.getItem("loginEmail");
+	GetCheckin_URL: string = "http://localhost:4000/currentCheckin";
+	contentHeader: Headers = new Headers({ "Content-Type": "application/json", "Authorization": this.loginId });
+
 	data: any;
-	// error: any;
+	select_status: any;
+	selected_EmoNo: any;
 
-
-	constructor(public navCtrl: NavController, private offlineService: Offline, private alertCtrl: AlertController, public http: Http, public employeeService: EmployeeServicePage) {
-		console.log('Hello EmployeesPage Page');
-		console.log("loginId", this.loginId);
-		// console.log("GetEmployee_URL....", this.GetEmployee_URL);
-
-		this.loadEmployee();
+	constructor(public navCtrl: NavController, private offlineService: Offline, private alertCtrl: AlertController, public http: Http, public employeeService: EmployeeServicePage, public params: NavParams) {
+		if (localStorage.getItem("loginToken")) {			
+			this.loadEmployee();
+			this.select_status = params.get("selectedStatus");
+			this.selected_EmoNo = params.data.selectedEmpNo;
+		} else {
+			this.navCtrl.push(LoginPage);
+		}
 	}
 
-	loadEmployee(){
-		
+	loadEmployee() {
 		this.employeeService.load().subscribe(
-			data => {
-				this.employees = data.EmployeeData;
-				console.log(data.EmployeeData);
-				data.EmployeeData.forEach((employee) => {
-					this.body = {
-						"userid": employee.companyId,
-						"employeeNo ":employee.employeeNo
+			dataOfEmp => {
+				this.employeeList = [];
+				// console.log("employee list ----->", this.employees);
+
+				this.http.get(this.GetCheckin_URL, { headers: this.contentHeader })
+					.map(data => data.json())
+					.subscribe(
+					dataOfCheckin => {
+						this.employeeCheckIns = dataOfCheckin;
+						this.checkins = [];
+						// console.log("check in api", this.employeeCheckIns);
+						// console.log("================", this.employeeCheckIns[0].checkin);
+						if (this.employeeCheckIns.length > 0){
+
+						this.employeeCheckIns.forEach((employeeNoData,key)=>{
+							// console.log("employeeNoData=======", employeeNoData.employeeNo);
+
+							// var employeeNo = employeeNoData.employeeNo;
+							// this.attandanceCheckIns = ;
+							
+							
+							if (employeeNoData.checkin.length > 0) {
+								// console.log("attandanceCheckIns------>", employeeNoData.checkin);
+
+								employeeNoData.checkin.forEach((checkIns) => {
+									// console.log("checkins ----forEach--->", checkIns);
+									// this.attandanceCheckType = checkIns.checkType;
+
+									var status = '';
+									
+									if (checkIns.checkType == 1 || checkIns.checkType == 2 || checkIns.checkType == 'i' || checkIns.checkType == 'I') {
+										status = 'In';
+									} else {
+										if (checkIns.checkType == 3) {
+											status = 'Break';
+
+										} else {
+											status = 'Out';
+										}
+									}
+									// console.log("stutus,, ", status);
+									this.checkins.push({
+										'employeeNo': employeeNoData.employeeNo,
+										'status': status
+									})
+									// console.log("checkins1,, ", this.checkins);
+								})					
+							}else{
+
+								
+								// console.log("else stutus,, ", status);
+								this.checkins.push({
+									'employeeNo': employeeNoData.employeeNo,
+									'status': 'Out'
+								})
+								// console.log("checkins1-else,, ", this.checkins);
+							}
+							console.log(key);
+							if (this.employeeCheckIns.length==(key+1)){
+								console.log("checkin if------", this.checkins);
+							}
+						})
+							
+						
+						dataOfEmp.EmployeeData.forEach((emp) => {
+							console.log("employee of data ------------------116------------->", emp);	
+							// this.employees = emp;
+							// this.checkins.forEach((myCheckinData,key) =>{
+							// 	console.log(myCheckinData,"-----",key);
+							// })			
+							for (var i = 0; i < this.checkins.length; i++) {
+								console.log(this.checkins[i].employeeNo, "====", this.checkins[i].status);
+								if (this.checkins[i].employeeNo == emp.employeeNo) {
+
+									status = this.checkins[i].status;
+								}
+							}
+							this.employeeList.push({
+								'employeeNo': emp.employeeNo,
+								'firstName': emp.firstName,
+								'lastName': emp.lastName,								
+								'status': status
+							})
+							// console.log("push ------employee-->", this.employeeList);
+						})
+
 					}
-					console.log("employee", employee);
-					this.http.post('http://192.241.230.86/userCurrentCheckin', this.body, { headers: this.contentHeader })
-						.map(data => data.json())
-						.subscribe(
-						data => {
-							this.currentUserStatus = data.status
-							console.log(this.currentUserStatus);
+
+						console.log(JSON.parse(localStorage.getItem("empStatusUpdate")));
+						if (localStorage.getItem("empStatusUpdate")) {
+							console.log("in if");
+							this.empStatusUpdate = JSON.parse(localStorage.getItem("empStatusUpdate"));
+							this.employeeList.forEach((checkinForEach)=>{
+								console.log("checkinForEach", checkinForEach);
+								if (checkinForEach.employeeNo === this.empStatusUpdate.empId) {
+									console.log("entry - ", checkinForEach.status, this.empStatusUpdate.checkType);
+									checkinForEach.status = this.empStatusUpdate.checkType;
+									// this.employeeList[iter].checkin[this.employeeList[iter].checkin.length - 1].checkType = this.empStatusUpdate.checkType;
+								}
+							})
+							// for (var iter = 0; iter < this.employeeList.length; iter++) {
+								// console.log(this.employeeList[iter].employeeNo ,"===",this.empStatusUpdate.empId);
+								
+								// console.log(this.employeeList[iter].employeeNo, this.employeeList[iter].status);
+							 // }
 						}
-						);
+						// if (this.selected_EmoNo == this.s.employeeNo) {
+						// 	this.set_selected_status = this.select_status;
+						// 	this.currentUserStatus = this.set_selected_status;
+						// }
+						// else {
+						// 	this.currentUserStatus = this.employeeCheckIns[0].checkin[0].checkType;
+						// }
+						
+						
+					})
+
 					
-
-					});
-				
-				// this.employees = Array.of(this.employees);
-				// console.log(data);
-			},
-			err => {
-				console.log("err...." + err);
-			}
-		)
-
-
-
-		// this.employeeService.load()
-		// .then(data => {
-		// 	this.employees = data;
-		// });
-
-		// this.http.post(this.GetEmployee_URL, { headers: this.contentHeader })
-		// 	.map(res => res.json())
-		// 	.subscribe(
-		// 	err => this.error = err
-		// 	);
-
-		// console.log("data", this.data);
+		})
+			
 	}
 
 	inOutFunc(employee) {
-		console.log("inOutFunc work",employee);
-		this.status = this.currentUserStatus;
-
-		console.log("line 89", this.status);
-		this.navCtrl.push(UserCheckinsPage, { emp_sigle_rec: employee,emp_status:this.status});
-	}
-
-	// ionViewDidLoad() {
-	// 	console.log('Hello EmployeesPage Page');
-	// }
-
-
-	createTodo() {
-		console.log("createTodo() work");
-		let prompt = this.alertCtrl.create({
-			title: 'Add',
-			message: 'What do you need to do?',
-			inputs: [
-				{
-					name: 'title'
-				}
-			],
-			buttons: [
-				{
-					text: 'Cancel'
-				},
-				{
-					text: 'Save',
-					handler: data => {
-						this.offlineService.createTodo({ title: data.title });
-					}
-				}
-			]
+		this.navCtrl.push(UserCheckinsPage, {
+			emp_sigle_rec: employee,
+			emp_status: this.status
 		});
-
-		prompt.present();
-
 	}
-
-	updateTodo(todo) {
-
-		let prompt = this.alertCtrl.create({
-			title: 'Edit',
-			message: 'Change your mind?',
-			inputs: [
-				{
-					name: 'title'
-				}
-			],
-			buttons: [
-				{
-					text: 'Cancel'
-				},
-				{
-					text: 'Save',
-					handler: data => {
-						this.offlineService.updateTodo({
-							_id: todo._id,
-							_rev: todo._rev,
-							title: data.title
-						});
-					}
-				}
-			]
-		});
-
-		prompt.present();
-	}
-
-	deleteTodo(todo) {
-		this.offlineService.deleteTodo(todo);
-	}
-	// authSuccess(token) {
-	// 	this.error = null;
-	// 	// localStorage.setItem("loginId", token);
-	// 	console.log("data", token);
-	// 	if (token) {
-	// 		// this.navCtrl.push(HomePage);
-	// 		console.log("success!");
-	// 	} else {
-	// 		console.log("invalid email and pwd");
-	// 	}
-	// 	// this.local.set('id_token', token);
-	// 	// this.user = this.jwtHelper.decodeToken(token).username;
-	// }
-
-	
-
 }

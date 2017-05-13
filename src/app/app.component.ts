@@ -48,6 +48,8 @@ export class MyApp {
   logoutApp() { ///<-- call from static button
     console.log("logout successfully");
     localStorage.clear();
+    localStorage.removeItem("loginToken");
+    localStorage.removeItem("userId");
     this.menu.close();
     this.nav.push(LoginPage);
 
