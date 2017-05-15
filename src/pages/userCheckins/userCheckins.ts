@@ -23,7 +23,7 @@ export class UserCheckinsPage {
 	public currentUserStatus: any;
 	public checktype: any;
 	public empStatusUpdate : any;
-
+	public dateTime: any;
 	loginToken = localStorage.getItem("loginToken");
 	loginId = localStorage.getItem("userId");
 	
@@ -52,7 +52,7 @@ export class UserCheckinsPage {
 
 	checkInOut(clickUserStatus,clickEmpNo){
 		if (clickUserStatus == 1 || clickUserStatus == 2 || clickUserStatus == 'i' || clickUserStatus == 'I' || clickUserStatus == 'IN') {
-			this.checktype = 'In';
+			this.checktype = 'I';
 		} else {
 			if (clickUserStatus == 3) {
 				this.checktype = 'Break';
@@ -76,12 +76,12 @@ export class UserCheckinsPage {
 		// console.log("API USER STATUS", this.user);
 		
 		// console.log("clickUserStatus", clickUserStatus, clickEmpNo);
-		let dateTime = new Date();
+		this.dateTime = new Date();
 		this.body ={
 			"userid": localStorage.getItem('userId'),
 			"employeeNo":this.emp_no,
 			"checkType": this.checktype,
-			"timeIn": moment(dateTime).format("YYYY-MM-DD HH:mm:ss")
+			"timeIn": moment(this.dateTime).format("YYYY-MM-DD HH:mm:ss")
 		}
 
 		console.log("------\n\n line 47 body", this.body);
@@ -91,7 +91,7 @@ export class UserCheckinsPage {
 							console.log("line 78 ok",data.json());
 							data.json();
 							if(data.json()){
-								this.empStatusUpdate = { "empId": this.emp_no, "checkType": this.checktype };
+								this.empStatusUpdate = { "empId": this.emp_no, "checkType": this.checktype, "dateCheckins": moment(this.dateTime).format("YYYY-MM-DD")};
 								localStorage.setItem("empStatusUpdate", JSON.stringify(this.empStatusUpdate));
 							}
 							this.checktype = clickUserStatus;

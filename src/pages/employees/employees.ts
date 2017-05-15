@@ -95,7 +95,7 @@ export class EmployeesPage {
 									var status = '';
 									
 									if (checkIns.checkType == 1 || checkIns.checkType == 2 || checkIns.checkType == 'i' || checkIns.checkType == 'I') {
-										status = 'In';
+										status = 'I';
 									} else {
 										if (checkIns.checkType == 3) {
 											status = 'Break';
@@ -127,13 +127,9 @@ export class EmployeesPage {
 							}
 						})
 							
-						
 						dataOfEmp.EmployeeData.forEach((emp) => {
-							console.log("employee of data ------------------116------------->", emp);	
-							// this.employees = emp;
-							// this.checkins.forEach((myCheckinData,key) =>{
-							// 	console.log(myCheckinData,"-----",key);
-							// })			
+							console.log("employee of data ------------------116------------->", emp);
+
 							for (var i = 0; i < this.checkins.length; i++) {
 								console.log(this.checkins[i].employeeNo, "====", this.checkins[i].status);
 								if (this.checkins[i].employeeNo == emp.employeeNo) {
@@ -144,39 +140,36 @@ export class EmployeesPage {
 							this.employeeList.push({
 								'employeeNo': emp.employeeNo,
 								'firstName': emp.firstName,
-								'lastName': emp.lastName,								
+								'lastName': emp.lastName,
 								'status': status
 							})
-							// console.log("push ------employee-->", this.employeeList);
+
 						})
 
-					}
+						
 
 						console.log(JSON.parse(localStorage.getItem("empStatusUpdate")));
 						if (localStorage.getItem("empStatusUpdate")) {
 							console.log("in if");
 							this.empStatusUpdate = JSON.parse(localStorage.getItem("empStatusUpdate"));
-							this.employeeList.forEach((checkinForEach)=>{
+							this.employeeList.forEach((checkinForEach)=>{ 
 								console.log("checkinForEach", checkinForEach);
 								if (checkinForEach.employeeNo === this.empStatusUpdate.empId) {
 									console.log("entry - ", checkinForEach.status, this.empStatusUpdate.checkType);
 									checkinForEach.status = this.empStatusUpdate.checkType;
-									// this.employeeList[iter].checkin[this.employeeList[iter].checkin.length - 1].checkType = this.empStatusUpdate.checkType;
+									localStorage.removeItem("empStatusUpdate");
+
 								}
-							})
-							// for (var iter = 0; iter < this.employeeList.length; iter++) {
-								// console.log(this.employeeList[iter].employeeNo ,"===",this.empStatusUpdate.empId);
+
 								
-								// console.log(this.employeeList[iter].employeeNo, this.employeeList[iter].status);
-							 // }
+							
+							})
+							
 						}
-						// if (this.selected_EmoNo == this.s.employeeNo) {
-						// 	this.set_selected_status = this.select_status;
-						// 	this.currentUserStatus = this.set_selected_status;
-						// }
-						// else {
-						// 	this.currentUserStatus = this.employeeCheckIns[0].checkin[0].checkType;
-						// }
+
+
+						
+						}
 						
 						
 					})
