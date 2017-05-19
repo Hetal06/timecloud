@@ -89,7 +89,7 @@ export class LoginPage {
 				.subscribe(
 				data => {
 					console.log("line 73------data---------->"+ JSON.stringify(data));
-					// this.authSuccess(data)
+					this.authSuccess(data)
 				},
 				err => this.error = err
 				);
@@ -122,7 +122,7 @@ export class LoginPage {
 		// console.log("connetion alert call");
 		let alert = this.alertCtrl.create({
 			title: 'No Network',
-			subTitle: 'Please turn on your network connection for Login !',
+			subTitle: 'Please turn on your network connection to use the service !',
 			buttons: ['OK']
 		})
 		alert.present();
