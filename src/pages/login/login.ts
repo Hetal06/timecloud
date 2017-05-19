@@ -1,12 +1,15 @@
 import { Component, Injectable } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Platform } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { EmployeesPage } from '../employees/employees';
-
+// import { Network } from 'ionic-native';
 // import { JwtHelper } from 'angular2-jwt';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
+declare var navigator: any;
+// declare var device;
+declare var Connection: any;
 
 // import {Http,Headers} from '@angular/http';
 
@@ -22,6 +25,8 @@ export class LoginPage {
 	public email: AbstractControl;
 	public pwd: AbstractControl;
 	public submitAttempt: boolean = false;
+	public networkState: any;
+	public states: any;
 	logins: { email?: string, pwd?: string } = {};
 	data: any;
 	user: String;
@@ -36,10 +41,12 @@ export class LoginPage {
 		public navParams: NavParams,
 		private formBuilder: FormBuilder,
 		public alertCtrl: AlertController,
-		public http: Http
+		public http: Http,
+		public platform: Platform
 
 		// private http: Http
 	) {
+		
 		this.login = formBuilder.group({
 			'email': ['', Validators.compose([Validators.required, Validators.minLength(5)])],
 			'pwd': ['', Validators.compose([Validators.required, Validators.minLength(4)])]
@@ -48,73 +55,117 @@ export class LoginPage {
 
 		this.email = this.login.controls['email'];
 		this.pwd = this.login.controls['pwd'];
-		console.log("logout mcd ethod run");
-		
+		console.log("logout mcd ethod run", this.email, "======>\n\n", this.pwd);
+
+		if (localStorage.getItem("loginToken")) {
+			console.log("success!");
+			this.navCtrl.push(EmployeesPage);
+		}
 
 	}
+
 
 
 
 	logForm() {
-		console.log("login method work");
 		this.submitAttempt = true;
+		// this.checkNetworkWithWindow();
+		if (window.navigator.onLine) { 
+			console.log("connection check");
+			// console.log(this.login.controls.email.value, "", this.login.controls.pwd.value);
 
-		console.log(this.login.controls.email.value, "", this.login.controls.pwd.value);
+			this.data = {
+				email: this.login.controls.email.value,
+				pwd: this.login.controls.pwd.value
+			}
+			// console.log("this.data -===========>"+ JSON.stringify(this.data));
+			this.http.post(this.LOGIN_URL, this.data, { headers: this.contentHeader })
+				// .map(res => res.json())
+				// .subscribe(
+				// data => this.authSuccess(data),
+				// err => this.error = err
+				// );			
+				.map(res => res.json())
+				.subscribe(
+				data => {
+					console.log("line 73------data---------->"+ JSON.stringify(data));
+					// this.authSuccess(data)
+				},
+				err => this.error = err
+				);
 
-		this.data = {
-			email: this.login.controls.email.value,
-			pwd: this.login.controls.pwd.value
+		} else {
+			this.showAlert();
 		}
+		
+				
+			// }
+		// 	}
+		// }
+				
+		// });
+	
+	}
 
-		this.http.post(this.LOGIN_URL, this.data, { headers: this.contentHeader })
-			.map(res => res.json())
-			.subscribe(
-			data => this.authSuccess(data),
-			err => this.error = err
-			);
-			// .map(res => res.json())
-			// .subscribe(
-			// data => {
-			// 	console.log("line 73------", data.token);
-			// 	data => this.authSuccess(data.token)
-			// },
-			// err => this.error = err
-			// );
-			
-
+	// checkNetworkWithWindow() {
+	// 	console.log("connetion wondow method");
+		
+	// 	// if (window.navigator.onLine){
+	// 	// 	return window.navigator.onLine;
+	// 	// }else{
+	// 	// 	this.showAlert();	
+	// 	// }
 		
 
-		// console.log("res==", res);
-		// console.log("data", data);
-
-
+	// }
+	showAlert() {
+		// console.log("connetion alert call");
+		let alert = this.alertCtrl.create({
+			title: 'No Network',
+			subTitle: 'Please turn on your network connection for Login !',
+			buttons: ['OK']
+		})
+		alert.present();
 	}
+
+	// checkConnection(network) {
+	// 	console.log("check connections");
+	// 	this.platform.ready().then(()=>{
+
+	// 		this.networkState = navigator.connection.type;
+	// 		this.states = [];
+	// 		this.states[Connection.UNKNOWN] = 'Unknown connection';
+	// 		this.states[Connection.ETHERNET] = 'Ethernet connection';
+	// 		this.states[Connection.WIFI] = 'WiFi connection';
+	// 		this.states[Connection.CELL_2G] = 'Cell 2G connection';
+	// 		this.states[Connection.CELL_3G] = 'Cell 3G connection';
+	// 		this.states[Connection.CELL_4G] = 'Cell 4G connection';
+	// 		this.states[Connection.CELL] = 'Cell generic connection';
+	// 		this.states[Connection.NONE] = 'No network connection';
+			
+
+	// 		network(this.networkState);
+	// 		console.log(this.states[this.networkState]);
+	// 	})
+		
+	// }
+
 
 	authSuccess(data) {
 		this.error = null;
-		
+		console.log("authSuccess data", data);
 		localStorage.setItem("loginToken", data.token);
 		localStorage.setItem("userId", data.user);
 		localStorage.setItem("loginEmail", data.email);
-		
-		// console.log("----line 97 data", data);
-		// console.log("----line 98 data token", data.token);
-		 // console.log("----line 99 data user", data.user);
-		// console.log("----line 100 data email", data.email);
-
-		// localStorage.setItem("loginId", token);
-		
-		
+				
 		if (localStorage.getItem("loginToken")) {
 			console.log("success!");
 			this.navCtrl.push(EmployeesPage);
 			
 		}else{
-			// this.navCtrl.push();
+			
 			console.log("invalid email and pwd");
 		}
-		// this.local.set('id_token', token);
-		// this.user = this.jwtHelper.decodeToken(token).username;
 	}
 
 }

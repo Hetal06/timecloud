@@ -18,6 +18,7 @@ import { SessionDetailPage } from '../pages/session-detail/session-detail';
 import { UserCheckinsPage } from '../pages/userCheckins/userCheckins';
 //providers
 import { UserData } from '../providers/user-data';
+import { NetworkServicePage } from '../providers/network-service';
 import { ConferenceData } from '../providers/conference-data';
 import { EmployeeServicePage } from '../providers/employee-service';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -56,6 +57,7 @@ AppModule = __decorate([
             // LogoutPage
         ],
         providers: [
+            NetworkServicePage,
             ConferenceData,
             EmployeeServicePage,
             Offline,

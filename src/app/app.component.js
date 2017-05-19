@@ -44,7 +44,7 @@ var MyApp = (function () {
     };
     MyApp.prototype.logoutApp = function () {
         console.log("logout successfully");
-        localStorage.clear();
+        // localStorage.clear();
         this.menu.close();
         this.nav.push(LoginPage);
     };

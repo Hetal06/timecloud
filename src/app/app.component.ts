@@ -26,7 +26,6 @@ export class MyApp {
       { title: 'Time Cloud', component: EmployeesPage },
       { title: 'Schedule', component: SchedulePage },
       
-
     ];
 
   }
@@ -47,9 +46,9 @@ export class MyApp {
   }
   logoutApp() { ///<-- call from static button
     console.log("logout successfully");
-    localStorage.clear();
     localStorage.removeItem("loginToken");
     localStorage.removeItem("userId");
+    localStorage.clear();
     this.menu.close();
     this.nav.push(LoginPage);
 
