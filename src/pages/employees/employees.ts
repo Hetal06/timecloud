@@ -49,7 +49,7 @@ export class EmployeesPage {
 	loginToken = localStorage.getItem("loginToken");
 	loginId = localStorage.getItem("userId");
 	loginEmail = localStorage.getItem("loginEmail");
-	GetCheckin_URL: string = "http://localhost:4000/currentCheckin";
+	GetCheckin_URL: string = "http://192.241.230.86:4000/currentCheckin";
 	contentHeader: Headers = new Headers({
 		"Content-Type": "application/json",
 		"Authorization": this.loginId
@@ -71,14 +71,9 @@ export class EmployeesPage {
 	}
 
 	loadEmployee() {
-		// this.employeeService.load().subscribe(
-		// 	dataOfEmp => {
-		// 		this.employeeList = dataOfEmp.EmployeeData;
-				// setTimeout(function() {
-				// 	location.reload();
-				// 	console.log("update dataOfEmp.EmployeeData");
-				// }, 10000);
-			// })
+
+		
+		console.log("page refreash if condition");
 		if (localStorage.getItem("employeeList") && (localStorage.getItem("TodayDate") == moment().format("YYYY-MM-DD"))) {
 
 			// console.log("line 180", localStorage.getItem("employeeList"));
@@ -102,140 +97,144 @@ export class EmployeesPage {
 						localStorage.setItem("employeeList", JSON.stringify(this.employeeList));
 					}
 				}
+				
 			} else {
 				console.log("! == this.EmpStoreDataNew	");
 				}
 				
 		}
 			 else {
-			console.log("else line 92");
-
+			console.log("page refreash else condition");
+			// this.doRefresh(0);
 			this.employeeService.load().subscribe(
 				dataOfEmp => {
 					this.todayDate = moment().format("YYYY-MM-DD");
 					localStorage.setItem("TodayDate", this.todayDate);
 					this.employeeList = [];
-					
-						this.http.get(this.GetCheckin_URL, {
-							headers: this.contentHeader
-						})
-							.map(data => data.json())
-							.subscribe(
-							dataOfCheckin => {
-								this.employeeCheckIns = dataOfCheckin;
-								this.checkins = [];
 
-								if (this.employeeCheckIns.length > 0) {
+					this.http.get(this.GetCheckin_URL, {
+						headers: this.contentHeader
+					})
+						.map(data => data.json())
+						.subscribe(
+						dataOfCheckin => {
+							this.employeeCheckIns = dataOfCheckin;
+							this.checkins = [];
 
-									this.employeeCheckIns.forEach((employeeNoData, key) => {
+							if (this.employeeCheckIns.length > 0) {
 
-										if (employeeNoData.checkin.length > 0) {
-											employeeNoData.checkin.forEach((checkIns) => {
-												var status = '';
-												if (checkIns.checkType == 1 || checkIns.checkType == 2 || checkIns.checkType == 'i' || checkIns.checkType == 'I') {
-													status = 'I';
+								this.employeeCheckIns.forEach((employeeNoData, key) => {
+
+									if (employeeNoData.checkin.length > 0) {
+										employeeNoData.checkin.forEach((checkIns) => {
+											var status = '';
+											if (checkIns.checkType == 1 || checkIns.checkType == 2 || checkIns.checkType == 'i' || checkIns.checkType == 'I') {
+												status = 'I';
+											} else {
+												if (checkIns.checkType == 3) {
+													status = 'Break';
+
 												} else {
-													if (checkIns.checkType == 3) {
-														status = 'Break';
-
-													} else {
-														status = 'Out';
-													}
+													status = 'Out';
 												}
-												this.checkins.push({
-													'employeeNo': employeeNoData.employeeNo,
-													'status': status
-												})
-											})
-										} else {
+											}
 											this.checkins.push({
 												'employeeNo': employeeNoData.employeeNo,
-												'status': 'Out'
+												'status': status
 											})
-										}
-
-									})
-									// console.log("line 114--", dataOfEmp.EmployeeData);
-									if (localStorage.getItem("employeeList")) {
-										this.bLocal = true;
-										this.employeeList = JSON.parse(localStorage.getItem("employeeList"));
-										// console.log("line 109", this.employeeList);
-										if (dataOfEmp.EmployeeData.length !== this.employeeList.length) {
-											this.bCountMatch = false;
-										} else {
-											this.bCountMatch = true;
-										}
+										})
 									} else {
-										this.bLocal = false;
+										this.checkins.push({
+											'employeeNo': employeeNoData.employeeNo,
+											'status': 'Out'
+										})
 									}
-									// console.log("line 120", this.checkins);
-									for (var iter = 0; iter < dataOfEmp.EmployeeData.length; iter++) {
-										// console.log("employee of home data ------------------116------------->", dataOfEmp.EmployeeData[iter]);
-										for (var innerIter = 0; innerIter < this.checkins.length; innerIter++) {
-											// console.log("innerIter -------->", innerIter);
-											if (this.checkins[innerIter].employeeNo == dataOfEmp.EmployeeData[iter].employeeNo) {
-												// console.log(this.checkins[innerIter].employeeNo == dataOfEmp.EmployeeData[iter].employeeNo);
-												if (this.bLocal && !this.bCountMatch) {
-													// console.log("this.employeeList[iter] line 136", this.employeeList[iter]);
-													if (this.employeeList[iter].employeeNo !== dataOfEmp.EmployeeData[iter].employeeNo) {
-														this.employeeList.push({
-															'employeeNo': dataOfEmp.EmployeeData[iter].employeeNo,
-															'firstName': dataOfEmp.EmployeeData[iter].firstName,
-															'lastName': dataOfEmp.EmployeeData[iter].lastName,
-															'status': this.checkins[innerIter].status
-														});
-													}
-												} else if (this.bLocal && this.bCountMatch) {
-													if (this.employeeList[iter].employeeNo == dataOfEmp.EmployeeData[iter].employeeNo && this.employeeList[iter].status !== this.checkins[innerIter].status) {
-														// console.log(this.employeeList[iter].status ,"===", this.checkins[innerIter].status);
-													}
-												} else if (!this.bLocal) {
+
+								})
+								// console.log("line 114--", dataOfEmp.EmployeeData);
+								if (localStorage.getItem("employeeList")) {
+									this.bLocal = true;
+									this.employeeList = JSON.parse(localStorage.getItem("employeeList"));
+									// console.log("line 109", this.employeeList);
+									if (dataOfEmp.EmployeeData.length !== this.employeeList.length) {
+										this.bCountMatch = false;
+									} else {
+										this.bCountMatch = true;
+									}
+								} else {
+									this.bLocal = false;
+								}
+								// console.log("line 120", this.checkins);
+								for (var iter = 0; iter < dataOfEmp.EmployeeData.length; iter++) {
+									// console.log("employee of home data ------------------116------------->", dataOfEmp.EmployeeData[iter]);
+									for (var innerIter = 0; innerIter < this.checkins.length; innerIter++) {
+										// console.log("innerIter -------->", innerIter);
+										if (this.checkins[innerIter].employeeNo == dataOfEmp.EmployeeData[iter].employeeNo) {
+											// console.log(this.checkins[innerIter].employeeNo == dataOfEmp.EmployeeData[iter].employeeNo);
+											if (this.bLocal && !this.bCountMatch) {
+												// console.log("this.employeeList[iter] line 136", this.employeeList[iter]);
+												if (this.employeeList[iter].employeeNo !== dataOfEmp.EmployeeData[iter].employeeNo) {
 													this.employeeList.push({
 														'employeeNo': dataOfEmp.EmployeeData[iter].employeeNo,
 														'firstName': dataOfEmp.EmployeeData[iter].firstName,
 														'lastName': dataOfEmp.EmployeeData[iter].lastName,
 														'status': this.checkins[innerIter].status
 													});
+
 												}
-
-											}
-										}
-
-
-										if (iter == (dataOfEmp.EmployeeData.length - 1)) {
-
-											for (var iter = 0; iter < this.employeeList.length; iter++) {
-												for (var innerIter = iter; innerIter < this.employeeList.length; innerIter++) {
-													// console.log(this.employeeList, innerIter, iter);
-													if (iter != innerIter && this.employeeList[iter] && this.employeeList[innerIter]) {
-														if (this.employeeList[iter].employeeNo == this.employeeList[innerIter].employeeNo) {
-															// this.employeeList.splice(iter, 1);
-															this.employeeList[iter].displayData = false;
-															// console.log("this.employeeList[iter] line 170", this.employeeList[iter].status.length);
-														}
-													}
+											} else if (this.bLocal && this.bCountMatch) {
+												if (this.employeeList[iter].employeeNo == dataOfEmp.EmployeeData[iter].employeeNo && this.employeeList[iter].status !== this.checkins[innerIter].status) {
+													// console.log(this.employeeList[iter].status ,"===", this.checkins[innerIter].status);
 												}
+											} else if (!this.bLocal) {
+												this.employeeList.push({
+													'employeeNo': dataOfEmp.EmployeeData[iter].employeeNo,
+													'firstName': dataOfEmp.EmployeeData[iter].firstName,
+													'lastName': dataOfEmp.EmployeeData[iter].lastName,
+													'status': this.checkins[innerIter].status
+												});
 											}
-											
-											localStorage.setItem("employeeList", JSON.stringify(this.employeeList));
-											// this.employeeList = JSON.parse(localStorage.getItem("employeeList"));
-
 
 										}
 									}
 
+
+									if (iter == (dataOfEmp.EmployeeData.length - 1)) {
+
+										for (var iter = 0; iter < this.employeeList.length; iter++) {
+											for (var innerIter = iter; innerIter < this.employeeList.length; innerIter++) {
+												// console.log(this.employeeList, innerIter, iter);
+												if (iter != innerIter && this.employeeList[iter] && this.employeeList[innerIter]) {
+													if (this.employeeList[iter].employeeNo == this.employeeList[innerIter].employeeNo) {
+														// this.employeeList.splice(iter, 1);
+														this.employeeList[iter].displayData = false;
+														// console.log("this.employeeList[iter] line 170", this.employeeList[iter].status.length);
+													}
+												}
+											}
+										}
+
+										localStorage.setItem("employeeList", JSON.stringify(this.employeeList));
+										// this.employeeList = JSON.parse(localStorage.getItem("employeeList"));
+
+
+									}
 								}
-							})								
-				})
-					
+
+							}
+							// if (refresher != 0) {
+							// 	refresher.complete();
+							// }
+						})
+				})	
 		}
 	}
 
+	// doRefresh(refresher) {
+	
 
-
-onOffline() {
-	// Handle the offline event
-}
+		
+	// 	}
 
 	inOutFunc(employee) {
 		console.log("employeeeeeeeeeee", employee);

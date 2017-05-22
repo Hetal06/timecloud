@@ -13,7 +13,7 @@ export class EmployeeServicePage {
 	loginId = localStorage.getItem("userId");
 	loginToken = localStorage.getItem("loginToken");
 
-	GetEmployee_URL: string = "http://localhost:4000/employeeHomeData";
+	GetEmployee_URL: string = "http://192.241.230.86:4000/employeeHomeData";
 	contentHeader: Headers = new Headers({ "Content-Type": "application/json", "Authorization": this.loginId });
 
 	constructor(public http: Http) {

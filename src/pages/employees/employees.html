@@ -7,12 +7,18 @@
 </ion-toolbar>
 </ion-header>
 <ion-content class="home" padding>
+<!--  <ion-refresher (ionRefresh)="doRefresh($event);">
+    <ion-refresher-content 
+      pullingText="Pull to refresh"
+      pullingIcon="arrow-dropdown"
+      refreshingSpinner="circles"
+      refreshingText="..fetching">
+</ion-refresher-content>
+ </ion-refresher> -->
   <ion-list>
     <div *ngFor="let employee of employeeList">
     <ion-item  *ngIf="employee.displayData != false">
       <h2  style="text-transform: capitalize;">{{employee.firstName}} {{employee.lastName}}
-
-      <!-- {{employee}} -->
         <span style="float: right;" >
           <button ion-button  *ngIf="employee.status == 'O' ||employee.status == 'OUT'||employee.status == 'Out'" color="danger" (click)='inOutFunc(employee);'> OUT </button>
           <button ion-button  *ngIf="employee.status == 'I'||employee.status == 'In'||employee.status == 'IN'" color="success" (click)='inOutFunc(employee);'> IN </button>
@@ -22,5 +28,6 @@
     </ion-item>
     </div>
   </ion-list>
+  
 </ion-content>
 

@@ -33,12 +33,9 @@ export class UserCheckinsPage {
 	constructor(public http: Http, public navCtrl: NavController, public employeeService: EmployeeServicePage, public params: NavParams) {
 		
 		if(localStorage.getItem("loginToken")) {
-
-			// console.log(JSON.parse(localStorage.getItem("emp_sigle_rec")));
 			this.empSingleRec = JSON.parse(localStorage.getItem("emp_sigle_rec"));			
 			this.emp_no = this.empSingleRec.employeeNo;
 			this.old_status = this.empSingleRec.status;
-			// console.log("this.emp_no", this.emp_no);
 			} else {
 			this.navCtrl.push(LoginPage);
 		}
@@ -51,16 +48,14 @@ export class UserCheckinsPage {
 		this.employeeList = JSON.parse(localStorage.getItem("employeeList"));
 
 		if (clickUserStatus == 1 || clickUserStatus == 2 || clickUserStatus == 'i' || clickUserStatus == 'I' || clickUserStatus == 'IN') {
-			this.checktype = 'I';
+			this.checktype = 'IN';
 		} else {
 			if (clickUserStatus == 3) {
 				this.checktype = 'Break';
 			} else {
-				this.checktype = 'O';
+				this.checktype = 'OUT';
 			}
 		} 
-		
-		// console.log("-----------\n\n line 40 checkStatus", this.checktype);
 
 		this.dateTime = new Date();
 		this.body ={
@@ -69,31 +64,14 @@ export class UserCheckinsPage {
 			"checkType": this.checktype,
 			"timeIn": moment(this.dateTime).format("YYYY-MM-DD HH:mm:ss")
 		}
-
 		
-		
-		this.http.post('http://localhost:4000/insertCheckins', this.body, { headers: this.contentHeader })
+		this.http.post('http://192.241.230.86:4000/insertCheckins', this.body, { headers: this.contentHeader })
 						.subscribe(data => {
-							// console.log("line 78 ok",data.json());
 							data.json();
 							if (data.json()) {
-								// this.empStatusUpdate = { "employeeNo": this.emp_no, "checkType": this.checktype, "dateCheckins": moment(this.dateTime).format("YYYY-MM-DD HH:mm:ss") };
-					
-							// for (var itr = 0; itr < this.employeeList.length  ; itr++) {
-									// console.log("=FOR LOOP=", this.employeeList);
-									// if (this.emp_no === this.employeeList[itr].employeeNo) {
-										// console.log("line 88", this.employeeList[itr]);
-										// console.log("------\n\n line 47 body", this.body);
-										localStorage.setItem("empStatusUpdate", JSON.stringify(this.body));
-										this.navCtrl.push(EmployeesPage);
-
-
-								// 	}
-								// }								
-							}
-
-							// console.log("--------\n\n line 65 currentUserStatus", this.checktype,this.emp_no);
-							
+								localStorage.setItem("empStatusUpdate", JSON.stringify(this.body));
+								this.navCtrl.push(EmployeesPage);
+							}							
 						},error =>{
 							console.log("line 62 error");
 						});
@@ -102,7 +80,6 @@ export class UserCheckinsPage {
 	}
 
 	cancleBtn(){
-		// console.log("cancle func");
 		this.navCtrl.push(EmployeesPage);
 	}
 

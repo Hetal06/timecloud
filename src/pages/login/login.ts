@@ -31,7 +31,7 @@ export class LoginPage {
 	data: any;
 	user: String;
 	
-	LOGIN_URL: string = "http://localhost:4000/mobileLogin";
+	LOGIN_URL: string = "http://192.241.230.86:4000/mobileLogin";
 	
 	contentHeader: Headers = new Headers({ "Content-Type": "application/json" });
 	// jwtHelper: JwtHelper = new JwtHelper();
@@ -70,7 +70,7 @@ export class LoginPage {
 	logForm() {
 		this.submitAttempt = true;
 		// this.checkNetworkWithWindow();
-		if (window.navigator.onLine) { 
+		 if (window.navigator.onLine) { 
 			console.log("connection check");
 			// console.log(this.login.controls.email.value, "", this.login.controls.pwd.value);
 
@@ -78,21 +78,24 @@ export class LoginPage {
 				email: this.login.controls.email.value,
 				pwd: this.login.controls.pwd.value
 			}
-			// console.log("this.data -===========>"+ JSON.stringify(this.data));
+			console.log("this.data -===========>"+ JSON.stringify(this.data));
 			this.http.post(this.LOGIN_URL, this.data, { headers: this.contentHeader })
-				// .map(res => res.json())
-				// .subscribe(
-				// data => this.authSuccess(data),
-				// err => this.error = err
-				// );			
 				.map(res => res.json())
 				.subscribe(
-				data => {
-					console.log("line 73------data---------->"+ JSON.stringify(data));
-					this.authSuccess(data)
-				},
+				data => this.authSuccess(data),
 				err => this.error = err
-				);
+				);			
+				// .map(res => {
+				// 	res.json()
+				// 	console.log("line 90------data---------->", res.json());
+				// })
+				// .subscribe(
+				// data => {
+				// 	console.log("line 94------data---------->", data);
+				// 	this.authSuccess(data)
+				// },
+				// err => this.error = err
+				// );
 
 		} else {
 			this.showAlert();
