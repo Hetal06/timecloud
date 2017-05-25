@@ -30,9 +30,9 @@ export class LoginPage {
 	logins: { email?: string, pwd?: string } = {};
 	data: any;
 	user: String;
-	
+
 	LOGIN_URL: string = "http://192.241.230.86:4000/mobileLogin";
-	
+
 	contentHeader: Headers = new Headers({ "Content-Type": "application/json" });
 	// jwtHelper: JwtHelper = new JwtHelper();
 	error: string;
@@ -46,7 +46,7 @@ export class LoginPage {
 
 		// private http: Http
 	) {
-		
+
 		this.login = formBuilder.group({
 			'email': ['', Validators.compose([Validators.required, Validators.minLength(5)])],
 			'pwd': ['', Validators.compose([Validators.required, Validators.minLength(4)])]
@@ -70,57 +70,27 @@ export class LoginPage {
 	logForm() {
 		this.submitAttempt = true;
 		// this.checkNetworkWithWindow();
-		 if (window.navigator.onLine) { 
+		 if (window.navigator.onLine) {
 			console.log("connection check");
-			// console.log(this.login.controls.email.value, "", this.login.controls.pwd.value);
-
+			 console.log(this.login.controls.email.value, "", this.login.controls.pwd.value);
 			this.data = {
 				email: this.login.controls.email.value,
 				pwd: this.login.controls.pwd.value
 			}
-			console.log("this.data -===========>"+ JSON.stringify(this.data));
+			console.log("this.data -======81=====>"+ JSON.stringify(this.data));
 			this.http.post(this.LOGIN_URL, this.data, { headers: this.contentHeader })
 				.map(res => res.json())
 				.subscribe(
 				data => this.authSuccess(data),
 				err => this.error = err
-				);			
-				// .map(res => {
-				// 	res.json()
-				// 	console.log("line 90------data---------->", res.json());
-				// })
-				// .subscribe(
-				// data => {
-				// 	console.log("line 94------data---------->", data);
-				// 	this.authSuccess(data)
-				// },
-				// err => this.error = err
-				// );
+				);
 
 		} else {
 			this.showAlert();
 		}
-		
-				
-			// }
-		// 	}
-		// }
-				
-		// });
-	
+
 	}
 
-	// checkNetworkWithWindow() {
-	// 	console.log("connetion wondow method");
-		
-	// 	// if (window.navigator.onLine){
-	// 	// 	return window.navigator.onLine;
-	// 	// }else{
-	// 	// 	this.showAlert();	
-	// 	// }
-		
-
-	// }
 	showAlert() {
 		// console.log("connetion alert call");
 		let alert = this.alertCtrl.create({
@@ -131,42 +101,19 @@ export class LoginPage {
 		alert.present();
 	}
 
-	// checkConnection(network) {
-	// 	console.log("check connections");
-	// 	this.platform.ready().then(()=>{
-
-	// 		this.networkState = navigator.connection.type;
-	// 		this.states = [];
-	// 		this.states[Connection.UNKNOWN] = 'Unknown connection';
-	// 		this.states[Connection.ETHERNET] = 'Ethernet connection';
-	// 		this.states[Connection.WIFI] = 'WiFi connection';
-	// 		this.states[Connection.CELL_2G] = 'Cell 2G connection';
-	// 		this.states[Connection.CELL_3G] = 'Cell 3G connection';
-	// 		this.states[Connection.CELL_4G] = 'Cell 4G connection';
-	// 		this.states[Connection.CELL] = 'Cell generic connection';
-	// 		this.states[Connection.NONE] = 'No network connection';
-			
-
-	// 		network(this.networkState);
-	// 		console.log(this.states[this.networkState]);
-	// 	})
-		
-	// }
-
-
 	authSuccess(data) {
 		this.error = null;
-		console.log("authSuccess data", data);
+		console.log("authSuccess data" + data);
 		localStorage.setItem("loginToken", data.token);
 		localStorage.setItem("userId", data.user);
 		localStorage.setItem("loginEmail", data.email);
-				
+
 		if (localStorage.getItem("loginToken")) {
 			console.log("success!");
 			this.navCtrl.push(EmployeesPage);
-			
+
 		}else{
-			
+
 			console.log("invalid email and pwd");
 		}
 	}

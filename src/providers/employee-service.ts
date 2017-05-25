@@ -17,7 +17,7 @@ export class EmployeeServicePage {
 	contentHeader: Headers = new Headers({ "Content-Type": "application/json", "Authorization": this.loginId });
 
 	constructor(public http: Http) {
-	
+
   }
 
   load(): Observable<any> {

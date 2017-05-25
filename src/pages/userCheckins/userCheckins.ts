@@ -25,37 +25,39 @@ export class UserCheckinsPage {
 	public empStatusUpdate : any;
 	public dateTime: any;
 	public employeeList: any;
+	public updateStatus: any;
 	loginToken = localStorage.getItem("loginToken");
 	loginId = localStorage.getItem("userId");
-	
+
 	contentHeader: Headers = new Headers({ "Content-Type": "application/json" });
-	
+
 	constructor(public http: Http, public navCtrl: NavController, public employeeService: EmployeeServicePage, public params: NavParams) {
-		
+
 		if(localStorage.getItem("loginToken")) {
-			this.empSingleRec = JSON.parse(localStorage.getItem("emp_sigle_rec"));			
+			this.empSingleRec = JSON.parse(localStorage.getItem("emp_sigle_rec"));
 			this.emp_no = this.empSingleRec.employeeNo;
 			this.old_status = this.empSingleRec.status;
 			} else {
 			this.navCtrl.push(LoginPage);
 		}
 
-		
+
 	}
 
 	checkInOut(clickUserStatus,clickEmpNo){
 		// console.log("employeeList localstorage ", JSON.parse(localStorage.getItem("employeeList")));
-		this.employeeList = JSON.parse(localStorage.getItem("employeeList"));
+		// this.employeeList = JSON.parse(localStorage.getItem("employeeList"));
+
 
 		if (clickUserStatus == 1 || clickUserStatus == 2 || clickUserStatus == 'i' || clickUserStatus == 'I' || clickUserStatus == 'IN') {
-			this.checktype = 'IN';
+			this.checktype = 'I';
 		} else {
-			if (clickUserStatus == 3) {
-				this.checktype = 'Break';
+			if (clickUserStatus == 'Break') {
+				this.checktype = 3;
 			} else {
 				this.checktype = 'OUT';
 			}
-		} 
+		}
 
 		this.dateTime = new Date();
 		this.body ={
@@ -64,19 +66,20 @@ export class UserCheckinsPage {
 			"checkType": this.checktype,
 			"timeIn": moment(this.dateTime).format("YYYY-MM-DD HH:mm:ss")
 		}
-		
+
 		this.http.post('http://192.241.230.86:4000/insertCheckins', this.body, { headers: this.contentHeader })
 						.subscribe(data => {
 							data.json();
 							if (data.json()) {
 								localStorage.setItem("empStatusUpdate", JSON.stringify(this.body));
 								this.navCtrl.push(EmployeesPage);
-							}							
+							}
 						},error =>{
 							console.log("line 62 error");
 						});
-			
-		 
+		// this.updateStatus = JSON.parse(localStorage.getItem("empStatusUpdate"));
+		// console.log("line ------51------->", this.updateStatus.checkType);
+
 	}
 
 	cancleBtn(){

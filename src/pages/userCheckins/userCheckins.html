@@ -18,9 +18,8 @@
    <span class="setSpan">
     <img src="../../assets/icon/Icon-user.png" class="img">
     <h3 class="setStyle"> {{empSingleRec.firstName}} &nbsp;{{empSingleRec.lastName}} &nbsp;</h3>
-
-  </span>
-  <ion-label class="label label-danger status">{{empSingleRec.status}}</ion-label>
+    </span>
+  <!-- <ion-label class="label label-danger status">{{empSingleRec.status}}</ion-label> -->
 
   <div class="setDiv">
   	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -29,7 +28,7 @@
     <button ion-button color="danger"  
     (click)="checkInOut('OUT',empSingleRec.employeeNo)">OUT</button><br>
     <button ion-button color="warning" 
-    (click)="checkInOut(3,empSingleRec.employeeNo)">START BREAK</button>
+    (click)="checkInOut('Break',empSingleRec.employeeNo)">START BREAK</button>
     <button ion-button color="danger" 
     (click)="checkInOut(2,empSingleRec.employeeNo)">END	 BREAK</button>
   </div>
