@@ -45,8 +45,10 @@ export class UserCheckinsPage {
 	}
 
 	checkInOut(clickUserStatus,clickEmpNo){
-		// console.log("employeeList localstorage ", JSON.parse(localStorage.getItem("employeeList")));
-		// this.employeeList = JSON.parse(localStorage.getItem("employeeList"));
+
+		 this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
+		 console.log("line 50",this.employeeList);
+
 
 
 		if (clickUserStatus == 1 || clickUserStatus == 2 || clickUserStatus == 'i' || clickUserStatus == 'I' || clickUserStatus == 'IN') {
@@ -71,14 +73,31 @@ export class UserCheckinsPage {
 						.subscribe(data => {
 							data.json();
 							if (data.json()) {
-								localStorage.setItem("empStatusUpdate", JSON.stringify(this.body));
+							 localStorage.removeItem("employeeList");
+							 for(let i=0;i<this.employeeList.length;i++){
+								  	if(this.employeeList[i].employeeNo == this.emp_no ){
+										console.log("line 77",this.employeeList[i].employeeNo ,"==", this.emp_no );
+										this.employeeList[i].status = this.checktype;
+										console.log("line 83 ---->",this.employeeList);
+									}
+								}
+								localStorage.setItem("employeeList",JSON.stringify(this.employeeList));
 								this.navCtrl.push(EmployeesPage);
+
 							}
 						},error =>{
 							console.log("line 62 error");
 						});
-		// this.updateStatus = JSON.parse(localStorage.getItem("empStatusUpdate"));
-		// console.log("line ------51------->", this.updateStatus.checkType);
+
+						// 	this.updateStatus = JSON.parse(localStorage.getItem("empStatusUpdate"));
+						//
+						//
+						//
+						// 		localStorage.setItem("employeeList", JSON.stringify(this.employeeList));
+						// 		console.log("line 89",localStorage.getItem("employeeList"));
+
+
+
 
 	}
 
