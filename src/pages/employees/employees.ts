@@ -23,6 +23,7 @@ import {
   LoginPage
 } from '../login/login';
 import * as moment from 'moment';
+// import * as _ from 'lodash';
 
 @Component({
   selector: 'page-employees',
@@ -98,44 +99,44 @@ export class EmployeesPage {
           dataOfCheckin => {
             this.employeeCheckIns = dataOfCheckin;
             this.checkins = [];
-            console.log("employeeCheckIns 129-->", this.employeeCheckIns);
+          //  console.log("employeeCheckIns 129-->", this.employeeCheckIns);
 						this.bLocal = false;
 						this.bCountMatch = false;
             if (this.employeeCheckIns.length > 0) {
-              console.log("line 99");
+            //  console.log("line 99");
               if (localStorage.getItem("employeeList")) {
-                    console.log("line 106------->",JSON.parse(localStorage.getItem("employeeList")).addedDate);
+                  //  console.log("line 106------->",JSON.parse(localStorage.getItem("employeeList")).addedDate);
                  if (JSON.parse(localStorage.getItem("employeeList")).addedDate !== moment().format("YYYY-MM-DD") && JSON.parse(localStorage.getItem("employeeList")).addedDate !== undefined) {
 								 	localStorage.removeItem("employeeList");
-                  console.log("line 110 getItem from LS", localStorage.getItem("employeeList"));
+                //  console.log("line 110 getItem from LS", localStorage.getItem("employeeList"));
                  } else {
                    this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
-                   console.log("line 115 else localStorage getItem ",this.employeeList);
+                  // console.log("line 115 else localStorage getItem ",this.employeeList);
                     this.bLocal = true;
-                    console.log("line 121",this.bLocal);
+                    //console.log("line 121",this.bLocal);
                      if (dataOfEmp.EmployeeData.length !== this.employeeList.length) {
-                       console.log("line 109", dataOfEmp.EmployeeData.length, "!==", this.employeeList.length);
+                    //   console.log("line 109", dataOfEmp.EmployeeData.length, "!==", this.employeeList.length);
                        this.bCountMatch = false;
-                       console.log("line 119",this.employeeList);
+                      // console.log("line 119",this.employeeList);
                      } else {
                        this.bCountMatch = true;
-                       console.log("line 122",this.bCountMatch);
+                       //console.log("line 122",this.bCountMatch);
                      }
 
                 }
 
               } else {
-                console.log("line 114");
+              //  console.log("line 114");
                 this.bLocal = false;
                 this.bCountMatch = false;
               }
-              console.log("this.bLocal = ", this.bLocal, "this.bCountMatch = ", this.bCountMatch);
+            //  console.log("this.bLocal = ", this.bLocal, "this.bCountMatch = ", this.bCountMatch);
               var status = '';
               this.employeeTemp = [];
               for (var iter in dataOfEmp.EmployeeData) {
-                console.log("line 136 ==>");
+                //console.log("line 136 ==>");
                 for (var innerIter in this.employeeCheckIns) {
-                  console.log("line 138 ==>");
+                  //console.log("line 138 ==>");
                   this.tempEmpData = this.employeeCheckIns[innerIter];
                   if (this.tempEmpData.employeeNo == dataOfEmp.EmployeeData[iter].employeeNo) {
                     if (this.tempEmpData.checkin.length > 0) {
@@ -153,8 +154,7 @@ export class EmployeesPage {
                         'lastName': dataOfEmp.EmployeeData[iter].lastName,
                         'status': this.tempEmpData.checkin[this.tempEmpData.checkin.length - 1].checkType,
                         'dateTime': this.tempEmpData.checkin[this.tempEmpData.checkin.length - 1].checkTime,
-                        'added': true,
-                        'key':innerIter
+                        'added': true
                       });
 
                     }
@@ -165,8 +165,7 @@ export class EmployeesPage {
                         'lastName': dataOfEmp.EmployeeData[iter].lastName,
                         'status': "Out",
                         'dateTime': this.today,
-                        'added': true,
-                        'key':innerIter
+                        'added': true
                       });
                     }
                   }
@@ -174,27 +173,32 @@ export class EmployeesPage {
               }
 
 
-              if (!this.bCountMatch ||!this.bLocal ) {
+              if (!this.bLocal ) {
+                console.log("line 178====>this.bLocal",this.bLocal,"===this.bCountMatch",this.bCountMatch);
                 localStorage.removeItem("employeeList");
                 console.log("174 line localStorage removeItem ",localStorage.getItem("employeeList"));
                 localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeTemp, addedDate: moment().format("YYYY-MM-DD") }));
                 console.log("line 176",JSON.parse(localStorage.getItem("employeeList")).empList);
 
-                this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
-                console.log("line 179",this.employeeList);
-
                 this.employeeList = this.employeeTemp;
-                console.log("line 182 this.employeeList == ",this.employeeList,"=== this.employeeTemp ===",this.employeeTemp);
+                // console.log("line 182 this.employeeList == ",this.employeeList,"=== this.employeeTemp ===",this.employeeTemp);
+
+              }else if(this.bLocal || !this.bCountMatch){
+                console.log("line 188====>this.bLocal",this.bLocal,"===this.bCountMatch",this.bCountMatch);
+                this.employeeList = this.employeeTemp;
+                localStorage.removeItem("employeeList");
+                console.log("174 line localStorage removeItem ",localStorage.getItem("employeeList"));
+                localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeTemp, addedDate: moment().format("YYYY-MM-DD") }));
+                console.log("line 176",JSON.parse(localStorage.getItem("employeeList")).empList);
 
               }
               else if (this.bLocal || this.bCountMatch) {
+                console.log("line 196====>this.bLocal",this.bLocal,"===this.bCountMatch",this.bCountMatch);
                 this.employeeList = JSON.parse(localStorage.getItem("employeeList"));
+                console.log("line 198====>",this.employeeList );
                 if (this.employeeList.length) {
-                  // this.keys=[];
                   for (var  iterEmp in this.employeeTemp) {
-                    console.log("line 191 ==>");
                     for (var innerIterEmp in this.employeeList) {
-                      console.log("line 193 ==>");
                       if (this.employeeList[innerIterEmp].employeeNo == this.employeeTemp[iterEmp].employeeNo) {
                         if (this.employeeTemp[iterEmp].dateTime > this.employeeList[innerIterEmp].dateTime) {
                           this.employeeList[innerIterEmp].status = this.employeeTemp[iterEmp].status;
@@ -209,20 +213,15 @@ export class EmployeesPage {
                     }
                   }
                   for (var iterTemp = 0; iterTemp < this.employeeTemp.length; iterTemp++) {
-                     console.log("line 212");
                     if (this.employeeTemp[iterTemp].added) {
-										 console.log("line 214---->");
                       this.employeeTemp[iterTemp].added = false;
                       this.employeeList.push(this.employeeTemp[iterTemp]);
                     }
                   }
                 }
                 this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
-                console.log("line 221");
                 localStorage.removeItem("employeeList");
-                console.log("line 223");
                 localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeList, addedDate: moment().format("YYYY-MM-DD")}));
-                console.log("line 225");
               }
             }
           })
@@ -231,7 +230,6 @@ export class EmployeesPage {
   }
 
   inOutFunc(employee) {
-    console.log("employeeeeeeeeeee", employee);
     let emp_sigle_rec = {
       "firstName": employee.firstName,
       "lastName": employee.lastName,

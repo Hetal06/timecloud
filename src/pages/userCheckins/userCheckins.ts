@@ -75,6 +75,7 @@ export class UserCheckinsPage {
 							 for(let i=0;i<this.employeeList.length;i++){
 								  	if(this.employeeList[i].employeeNo == this.emp_no ){
 										this.employeeList[i].status = this.checktype;
+
 									}
 								}
 								 localStorage.removeItem("employeeList");
