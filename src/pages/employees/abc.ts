@@ -71,43 +71,43 @@ export class EmployeesPage {
 	}
 
 	loadEmployee() {
-		// this.employeeService.load().subscribe(
-		// 	dataOfEmp => {
-		// 		this.employeeList = dataOfEmp.EmployeeData;
-		// setTimeout(function() {
-		// 	location.reload();
-		// 	console.log("update dataOfEmp.EmployeeData");
-		// }, 10000);
-		// })
-		// if (localStorage.getItem("employeeList") && (localStorage.getItem("TodayDate") == moment().format("YYYY-MM-DD"))) {
-		//
-		// 	console.log("line 180", localStorage.getItem("employeeList"));
-		// 	console.log("line 181", JSON.parse(localStorage.getItem("employeeList")));
-		// 	this.employeeList = JSON.parse(localStorage.getItem("employeeList"));
-		// 	// console.log(localStorage.getItem("empStatusUpdate"));
-		// 	// console.log("this.EmpStoreData line 80---->", this.EmpStoreData);
-		// 	if (localStorage.getItem("empStatusUpdate")) {
-		// 		this.EmpStoreDataNew = JSON.parse(localStorage.getItem("empStatusUpdate"));
-		// 		// console.log("line 84---->", this.EmpStoreDataNew, "\n\n---------->", this.employeeList);
-		// 		for (var itr = 0; itr < this.employeeList.length; itr++) {
-		// 			// console.log("employee line 183  ---------->", this.EmpStoreDataNew);
-		// 			if (this.employeeList[itr].employeeNo == this.EmpStoreDataNew.employeeNo) {
-		// 				// console.log("line 185", this.EmpStoreDataNew.employeeNo, "===", this.employeeList[itr].employeeNo);
-		// 				// console.log("checktype line 186", this.EmpStoreDataNew.checkType, "!===", this.employeeList[itr].status)
-		// 				this.employeeList[itr].status = this.EmpStoreDataNew.checkType;
-		//
-		// 				// console.log("line 195", this.employeeList[itr].status, "+++", this.EmpStoreDataNew.checkType);
-		// 			}
-		// 			if (this.employeeList.length === (itr + 1)) {
-		// 				localStorage.setItem("employeeList", JSON.stringify(this.employeeList));
-		// 			}
-		// 		}
-		// 	} else {
-		// 		console.log("! == this.EmpStoreDataNew	");
-		// 	}
-		//
-		// }
-		// else {
+		this.employeeService.load().subscribe(
+			dataOfEmp => {
+				this.employeeList = dataOfEmp.EmployeeData;
+		setTimeout(function() {
+			location.reload();
+			console.log("update dataOfEmp.EmployeeData");
+		}, 10000);
+		})
+		if (localStorage.getItem("employeeList") && (localStorage.getItem("TodayDate") == moment().format("YYYY-MM-DD"))) {
+
+			console.log("line 180", localStorage.getItem("employeeList"));
+			console.log("line 181", JSON.parse(localStorage.getItem("employeeList")));
+			this.employeeList = JSON.parse(localStorage.getItem("employeeList"));
+			// console.log(localStorage.getItem("empStatusUpdate"));
+			// console.log("this.EmpStoreData line 80---->", this.EmpStoreData);
+			if (localStorage.getItem("empStatusUpdate")) {
+				this.EmpStoreDataNew = JSON.parse(localStorage.getItem("empStatusUpdate"));
+				// console.log("line 84---->", this.EmpStoreDataNew, "\n\n---------->", this.employeeList);
+				for (var itr = 0; itr < this.employeeList.length; itr++) {
+					// console.log("employee line 183  ---------->", this.EmpStoreDataNew);
+					if (this.employeeList[itr].employeeNo == this.EmpStoreDataNew.employeeNo) {
+						// console.log("line 185", this.EmpStoreDataNew.employeeNo, "===", this.employeeList[itr].employeeNo);
+						// console.log("checktype line 186", this.EmpStoreDataNew.checkType, "!===", this.employeeList[itr].status)
+						this.employeeList[itr].status = this.EmpStoreDataNew.checkType;
+
+						// console.log("line 195", this.employeeList[itr].status, "+++", this.EmpStoreDataNew.checkType);
+					}
+					if (this.employeeList.length === (itr + 1)) {
+						localStorage.setItem("employeeList", JSON.stringify(this.employeeList));
+					}
+				}
+			} else {
+				console.log("! == this.EmpStoreDataNew	");
+			}
+
+		}
+		else {
 			console.log("else line 92");
 
 			this.employeeService.load().subscribe(
@@ -229,7 +229,7 @@ export class EmployeesPage {
 						})
 				})
 
-		// }
+		 }
 	}
 
 	inOutFunc(employee) {

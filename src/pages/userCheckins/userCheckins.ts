@@ -47,7 +47,7 @@ export class UserCheckinsPage {
 	checkInOut(clickUserStatus,clickEmpNo){
 
 		 this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
-		 console.log("line 50",this.employeeList);
+		//  console.log("line 50",this.employeeList);
 
 		if (clickUserStatus == 1 || clickUserStatus == 2 || clickUserStatus == 'i' || clickUserStatus == 'I' || clickUserStatus == 'IN') {
 			this.checktype = 'I';
@@ -80,12 +80,12 @@ export class UserCheckinsPage {
 								 localStorage.removeItem("employeeList");
 								//  localStorage.setItem("employeeList",JSON.stringify(this.employeeList));
 								 localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeList, addedDate: moment().format("YYYY-MM-DD") }));
-								 console.log("line 85---->",localStorage.getItem("employeeList"));
+								//  console.log("line 85---->",localStorage.getItem("employeeList"));
 								this.navCtrl.push(EmployeesPage);
 
 							}
 						},error =>{
-							console.log("line 62 error");
+							// console.log("line 62 error");
 						});
 
 	}

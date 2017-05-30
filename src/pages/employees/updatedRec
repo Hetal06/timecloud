@@ -49,7 +49,6 @@ export class EmployeesPage {
   public today: any;
   public tempEmpData: any;
   public employeeTemp: any;
-  public keys :any;
 
   loginToken = localStorage.getItem("loginToken");
   loginId = localStorage.getItem("userId");
@@ -132,10 +131,8 @@ export class EmployeesPage {
               console.log("this.bLocal = ", this.bLocal, "this.bCountMatch = ", this.bCountMatch);
               var status = '';
               this.employeeTemp = [];
-              for (var iter in dataOfEmp.EmployeeData) {
-                console.log("line 136 ==>");
-                for (var innerIter in this.employeeCheckIns) {
-                  console.log("line 138 ==>");
+              for (var iter = 0; iter < dataOfEmp.EmployeeData.length; iter++) {
+                for (var innerIter = 0; innerIter < this.employeeCheckIns.length; innerIter++) {
                   this.tempEmpData = this.employeeCheckIns[innerIter];
                   if (this.tempEmpData.employeeNo == dataOfEmp.EmployeeData[iter].employeeNo) {
                     if (this.tempEmpData.checkin.length > 0) {
@@ -153,8 +150,7 @@ export class EmployeesPage {
                         'lastName': dataOfEmp.EmployeeData[iter].lastName,
                         'status': this.tempEmpData.checkin[this.tempEmpData.checkin.length - 1].checkType,
                         'dateTime': this.tempEmpData.checkin[this.tempEmpData.checkin.length - 1].checkTime,
-                        'added': true,
-                        'key':innerIter
+                        'added': true
                       });
 
                     }
@@ -165,8 +161,7 @@ export class EmployeesPage {
                         'lastName': dataOfEmp.EmployeeData[iter].lastName,
                         'status': "Out",
                         'dateTime': this.today,
-                        'added': true,
-                        'key':innerIter
+                        'added': true
                       });
                     }
                   }
@@ -190,39 +185,33 @@ export class EmployeesPage {
               else if (this.bLocal || this.bCountMatch) {
                 this.employeeList = JSON.parse(localStorage.getItem("employeeList"));
                 if (this.employeeList.length) {
-                  // this.keys=[];
-                  for (var  iterEmp in this.employeeTemp) {
-                    console.log("line 191 ==>");
-                    for (var innerIterEmp in this.employeeList) {
-                      console.log("line 193 ==>");
-                      if (this.employeeList[innerIterEmp].employeeNo == this.employeeTemp[iterEmp].employeeNo) {
-                        if (this.employeeTemp[iterEmp].dateTime > this.employeeList[innerIterEmp].dateTime) {
-                          this.employeeList[innerIterEmp].status = this.employeeTemp[iterEmp].status;
-                          this.employeeList[innerIterEmp].dateTime = this.employeeTemp[iterEmp].dateTime;
-                          this.employeeTemp[iterEmp].added = false;
+                  for (var iter = 0; iter < this.employeeTemp.length; iter++) {
+                    for (var innerIter = 0; innerIter < this.employeeList.length; innerIter++) {
+                      if (this.employeeList[innerIter].employeeNo == this.employeeTemp[iter].employeeNo) {
+                        if (this.employeeTemp[iter].dateTime > this.employeeList[innerIter].dateTime) {
+                          this.employeeList[innerIter].status = this.employeeTemp[iter].status;
+                          this.employeeList[innerIter].dateTime = this.employeeTemp[iter].dateTime;
+                          this.employeeTemp[iter].added = false;
                         }else{
-                          this.employeeList[innerIterEmp].status = this.employeeTemp[iterEmp].status;
-                          this.employeeList[innerIterEmp].dateTime = this.employeeTemp[iterEmp].dateTime;
-                          this.employeeTemp[iterEmp].added = false;
+                          this.employeeList[innerIter].status = this.employeeTemp[iter].status;
+                          this.employeeList[innerIter].dateTime = this.employeeTemp[iter].dateTime;
+                          this.employeeTemp[iter].added = false;
                         }
                       }
                     }
                   }
-                  for (var iterTemp = 0; iterTemp < this.employeeTemp.length; iterTemp++) {
-                     console.log("line 212");
-                    if (this.employeeTemp[iterTemp].added) {
-										 console.log("line 214---->");
-                      this.employeeTemp[iterTemp].added = false;
-                      this.employeeList.push(this.employeeTemp[iterTemp]);
+                  for (var iter = 0; iter < this.employeeTemp.length; iter++) {
+                    // console.log("line 182");
+                    if (this.employeeTemp[iter].added) {
+											// console.log("line 195---->",this.employeeTemp[iter].added);
+                      this.employeeTemp[iter].added = false;
+                      this.employeeList.push(this.employeeTemp[iter]);
                     }
                   }
                 }
-                this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
-                console.log("line 221");
+              this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
                 localStorage.removeItem("employeeList");
-                console.log("line 223");
                 localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeList, addedDate: moment().format("YYYY-MM-DD")}));
-                console.log("line 225");
               }
             }
           })
