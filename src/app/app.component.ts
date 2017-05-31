@@ -17,16 +17,19 @@ export class MyApp {
   rootPage: any = LoginPage;
 
   pages: Array<{title: string, component: any}>;
-
+  terminal:Array<{title: string, component: any}>;
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public menu: MenuController) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Time Cloud', component: EmployeesPage },
-      { title: 'Terminal Mode', component: TerminalModePage },
-
     ];
+    this.terminal = [
+      { title: 'Terminal Mode', component: TerminalModePage },
+      {title : 'Setting',component: TerminalModePage }
+    ];
+
 
   }
 

@@ -10,6 +10,10 @@
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
         {{p.title}}
       </button>
+      <h4 style="margin-left: 1rem;">Action</h4>
+      <button menuClose ion-item *ngFor="let t of terminal" (click)="openPage(t)">
+        {{t.title}}
+      </button>
       <button ion-item (click)="logoutApp()">
           <!--Add this static button for logout-->
         Log Out
