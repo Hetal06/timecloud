@@ -19,11 +19,12 @@
     <img src="../../assets/icon/Icon-user.png" class="img">
     <h3 class="setStyle"> {{empSingleRec.firstName}} &nbsp;{{empSingleRec.lastName}} &nbsp;</h3>
 
-    <button ion-button *ngIf="empSingleRec.status == 'I'" color="success">IN</button>
-      <button ion-button *ngIf="empSingleRec.status == 'OUT'" color="danger">OUT</button>
-        <button ion-button class="breakBtn" *ngIf="empSingleRec.status == '3'" >BREAK</button>
-  </span>
-  
+    <ion-label class="currentStatus" >Current Status :</ion-label>
+    <ion-label class="statusIn" *ngIf="empSingleRec.status == 'I'" color="success" >IN</ion-label>
+      <ion-label class="status" *ngIf="empSingleRec.status == 'OUT'" color="danger">OUT</ion-label>
+        <ion-label class="statusBreak" *ngIf="empSingleRec.status == '3'">BREAK</ion-label>
+</span>
+
   <div class="setDiv">
   	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <button ion-button color="success"

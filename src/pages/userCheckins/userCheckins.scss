@@ -1,6 +1,12 @@
-.breakBtn{
-	background-color: Yellow;
-	color: Black;
+.statusBreak{
+	margin: -55px -195px 13px 0;
+	font-size: 1.5rem;
+	color: blueviolet;
+}
+.statusIn{
+	margin:	-54px -179px 13px 0;
+	font-size: 1.5rem;
+	color: blue;
 }
 .setDiv
 {
@@ -34,19 +40,24 @@
     inline-size: initial;
     text-underline-position: inherit;
     margin-top: 9.6rem;
-    margin-bottom: 1rem;
+    margin-bottom: 4rem;
     font-weight: inherit;
     line-height: 1.2;
 }
-.status{
-    margin: -36px -263px -57px 15px;
-    color: red;
+.currentStatus{
+	margin: -35px -26px -57px 15px;
+    color: #343434;
     padding: 0 .6em;
     height: 25px;
-    font-size: 2.2rem;
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
 
   /*  padding: 0.2em 0.6em 0.3em;
     border-radius: 0;*/
+}
+.status{
+margin:	-53px -185px 13px 0;
+font-size: 1.5rem;
 }
 .btn{
     padding: 20px 10.6rem;
