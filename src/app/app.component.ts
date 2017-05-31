@@ -6,7 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { LoginPage } from '../pages/login/login';
 import { EmployeesPage } from '../pages/employees/employees';
-import { SchedulePage } from '../pages/schedule/schedule';
+import { TerminalModePage } from '../pages/terminalMode/terminalMode';
 
 @Component({
   templateUrl: 'app.html'
@@ -24,8 +24,8 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Time Cloud', component: EmployeesPage },
-      { title: 'Schedule', component: SchedulePage },
-      
+      { title: 'Terminal Mode', component: TerminalModePage },
+
     ];
 
   }

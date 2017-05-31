@@ -77,11 +77,6 @@ export class EmployeesPage {
   }
 
   loadEmployee() {
-    // setTimeout(function() {
-    //   location.reload();
-    //   console.log("update dataOfEmp.EmployeeData");
-    // }, 10000);
-
     this.employeeService.load().subscribe(
       dataOfEmp => {
         this.employeeList = [];
@@ -99,16 +94,12 @@ export class EmployeesPage {
           dataOfCheckin => {
             this.employeeCheckIns = dataOfCheckin;
             this.checkins = [];
-          //  console.log("employeeCheckIns 129-->", this.employeeCheckIns);
 						this.bLocal = false;
 						this.bCountMatch = false;
             if (this.employeeCheckIns.length > 0) {
-            //  console.log("line 99");
               if (localStorage.getItem("employeeList")) {
-                  //  console.log("line 106------->",JSON.parse(localStorage.getItem("employeeList")).addedDate);
                  if (JSON.parse(localStorage.getItem("employeeList")).addedDate !== moment().format("YYYY-MM-DD") && JSON.parse(localStorage.getItem("employeeList")).addedDate !== undefined) {
 								 	localStorage.removeItem("employeeList");
-                //  console.log("line 110 getItem from LS", localStorage.getItem("employeeList"));
                  } else {
                    this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
                    console.log("line 115 else localStorage getItem ",this.employeeList);
@@ -117,26 +108,19 @@ export class EmployeesPage {
                      if (dataOfEmp.EmployeeData.length !== this.employeeList.length) {
                       console.log("line 109", dataOfEmp.EmployeeData.length, "!==", this.employeeList.length);
                        this.bCountMatch = false;
-                      // console.log("line 119",this.employeeList);
                       } else {
                        this.bCountMatch = true;
-                       //console.log("line 122",this.bCountMatch);
                       }
-
                 }
 
               } else {
-              //  console.log("line 114");
                 this.bLocal = false;
                 this.bCountMatch = false;
               }
-            //  console.log("this.bLocal = ", this.bLocal, "this.bCountMatch = ", this.bCountMatch);
               var status = '';
               this.employeeTemp = [];
               for (var iter in dataOfEmp.EmployeeData) {
-                //console.log("line 136 ==>");
                 for (var innerIter in this.employeeCheckIns) {
-                  //console.log("line 138 ==>");
                   this.tempEmpData = this.employeeCheckIns[innerIter];
                   if (this.tempEmpData.employeeNo == dataOfEmp.EmployeeData[iter].employeeNo) {
                     if (this.tempEmpData.checkin.length > 0) {
@@ -156,7 +140,6 @@ export class EmployeesPage {
                         'dateTime': this.tempEmpData.checkin[this.tempEmpData.checkin.length - 1].checkTime,
                         'added': true
                       });
-
                     }
                     else {
                       this.employeeTemp.push({
@@ -171,27 +154,19 @@ export class EmployeesPage {
                   }
                 }
               }
-
               if (!this.bLocal || !this.bCountMatch) {
-
                 var newRec = this.employeeTemp.length;
                 var oldRec =this.employeeList.length;
                 var countRec = newRec - oldRec;
-
                 for (let i = 0; i < countRec; i++) {
                   console.log("line 180====>",countRec );
                   this.employeeList.push(this.employeeTemp[i]);
                 }
-                // this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
                 localStorage.removeItem("employeeList");
                 localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeTemp, addedDate: moment().format("YYYY-MM-DD")}));
-                console.log("line 185-----",localStorage.getItem("employeeList"));
-
               }
               else if (this.bLocal || this.bCountMatch) {
-                console.log("line 196====>this.bLocal",this.bLocal,"===this.bCountMatch",this.bCountMatch);
                 this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
-
                 if (this.employeeList.length) {
                   for (var  iterEmp in this.employeeTemp) {
                     for (var innerIterEmp in this.employeeList) {
@@ -222,7 +197,6 @@ export class EmployeesPage {
             }
           })
       })
-
   }
 
   inOutFunc(employee) {
@@ -233,9 +207,6 @@ export class EmployeesPage {
       "employeeNo": employee.employeeNo
     };
     localStorage.setItem("emp_sigle_rec", JSON.stringify(emp_sigle_rec));
-
     this.navCtrl.push(UserCheckinsPage);
-
   }
-
 }

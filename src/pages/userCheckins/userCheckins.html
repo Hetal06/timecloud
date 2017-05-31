@@ -18,21 +18,24 @@
    <span class="setSpan">
     <img src="../../assets/icon/Icon-user.png" class="img">
     <h3 class="setStyle"> {{empSingleRec.firstName}} &nbsp;{{empSingleRec.lastName}} &nbsp;</h3>
-    </span>
-  <!-- <ion-label class="label label-danger status">{{empSingleRec.status}}</ion-label> -->
 
+    <button ion-button *ngIf="empSingleRec.status == 'I'" color="success">IN</button>
+      <button ion-button *ngIf="empSingleRec.status == 'OUT'" color="danger">OUT</button>
+        <button ion-button class="breakBtn" *ngIf="empSingleRec.status == '3'" >BREAK</button>
+  </span>
+  
   <div class="setDiv">
   	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button ion-button color="success" 
+    <button ion-button color="success"
     (click)="checkInOut('IN',empSingleRec.employeeNo)" >IN</button>
-    <button ion-button color="danger"  
+    <button ion-button color="danger"
     (click)="checkInOut('OUT',empSingleRec.employeeNo)">OUT</button><br>
-    <button ion-button color="warning" 
+    <button ion-button color="warning"
     (click)="checkInOut('Break',empSingleRec.employeeNo)">START BREAK</button>
-    <button ion-button color="danger" 
+    <button ion-button color="danger"
     (click)="checkInOut(2,empSingleRec.employeeNo)">END	 BREAK</button>
   </div>
   <button ion-button round color="cancle" class="btn" (click)="cancleBtn();">cancle</button>
-  
+
 </ion-list>
 </ion-content>

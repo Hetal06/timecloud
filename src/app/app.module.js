@@ -13,7 +13,7 @@ import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
 import { EmployeesPage } from '../pages/employees/employees';
 import { Offline } from '../providers/offline';
-import { SchedulePage } from '../pages/schedule/schedule';
+import { TerminalModePage } from '../pages/terminalMode/terminalMode';
 import { SessionDetailPage } from '../pages/session-detail/session-detail';
 import { UserCheckinsPage } from '../pages/userCheckins/userCheckins';
 //providers
@@ -35,7 +35,7 @@ AppModule = __decorate([
             MyApp,
             LoginPage,
             EmployeesPage,
-            SchedulePage,
+            TerminalModePage,
             SessionDetailPage,
             UserCheckinsPage
             // LogoutPage
@@ -51,7 +51,7 @@ AppModule = __decorate([
             MyApp,
             LoginPage,
             EmployeesPage,
-            SchedulePage,
+            TerminalModePage,
             SessionDetailPage,
             UserCheckinsPage
             // LogoutPage
