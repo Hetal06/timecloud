@@ -23,7 +23,7 @@ import {
   LoginPage
 } from '../login/login';
 import * as moment from 'moment';
-// import * as _ from 'lodash';
+// import * as _ from "lodash";
 
 @Component({
   selector: 'page-employees',
@@ -111,17 +111,17 @@ export class EmployeesPage {
                 //  console.log("line 110 getItem from LS", localStorage.getItem("employeeList"));
                  } else {
                    this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
-                  // console.log("line 115 else localStorage getItem ",this.employeeList);
+                   console.log("line 115 else localStorage getItem ",this.employeeList);
                     this.bLocal = true;
-                    //console.log("line 121",this.bLocal);
+                    console.log("line 121",this.bLocal);
                      if (dataOfEmp.EmployeeData.length !== this.employeeList.length) {
-                    //   console.log("line 109", dataOfEmp.EmployeeData.length, "!==", this.employeeList.length);
+                      console.log("line 109", dataOfEmp.EmployeeData.length, "!==", this.employeeList.length);
                        this.bCountMatch = false;
                       // console.log("line 119",this.employeeList);
-                     } else {
+                      } else {
                        this.bCountMatch = true;
                        //console.log("line 122",this.bCountMatch);
-                     }
+                      }
 
                 }
 
@@ -172,30 +172,26 @@ export class EmployeesPage {
                 }
               }
 
+              if (!this.bLocal || !this.bCountMatch) {
 
-              if (!this.bLocal ) {
-                console.log("line 178====>this.bLocal",this.bLocal,"===this.bCountMatch",this.bCountMatch);
+                var newRec = this.employeeTemp.length;
+                var oldRec =this.employeeList.length;
+                var countRec = newRec - oldRec;
+
+                for (let i = 0; i < countRec; i++) {
+                  console.log("line 180====>",countRec );
+                  this.employeeList.push(this.employeeTemp[i]);
+                }
+                // this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
                 localStorage.removeItem("employeeList");
-                console.log("174 line localStorage removeItem ",localStorage.getItem("employeeList"));
-                localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeTemp, addedDate: moment().format("YYYY-MM-DD") }));
-                console.log("line 176",JSON.parse(localStorage.getItem("employeeList")).empList);
-
-                this.employeeList = this.employeeTemp;
-                // console.log("line 182 this.employeeList == ",this.employeeList,"=== this.employeeTemp ===",this.employeeTemp);
-
-              }else if(this.bLocal || !this.bCountMatch){
-                console.log("line 188====>this.bLocal",this.bLocal,"===this.bCountMatch",this.bCountMatch);
-                this.employeeList = this.employeeTemp;
-                localStorage.removeItem("employeeList");
-                console.log("174 line localStorage removeItem ",localStorage.getItem("employeeList"));
-                localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeTemp, addedDate: moment().format("YYYY-MM-DD") }));
-                console.log("line 176",JSON.parse(localStorage.getItem("employeeList")).empList);
+                localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeTemp, addedDate: moment().format("YYYY-MM-DD")}));
+                console.log("line 185-----",localStorage.getItem("employeeList"));
 
               }
               else if (this.bLocal || this.bCountMatch) {
                 console.log("line 196====>this.bLocal",this.bLocal,"===this.bCountMatch",this.bCountMatch);
-                this.employeeList = JSON.parse(localStorage.getItem("employeeList"));
-                console.log("line 198====>",this.employeeList );
+                this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
+
                 if (this.employeeList.length) {
                   for (var  iterEmp in this.employeeTemp) {
                     for (var innerIterEmp in this.employeeList) {
