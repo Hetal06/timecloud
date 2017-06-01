@@ -12,6 +12,7 @@ import { Offline } from '../providers/offline';
 import { TerminalModePage } from '../pages/terminalMode/terminalMode';
 import { SessionDetailPage } from '../pages/session-detail/session-detail';
 import { UserCheckinsPage } from '../pages/userCheckins/userCheckins';
+import {PasswordPage} from '../pages/password/password';
 //providers
 import { UserData } from '../providers/user-data';
 import { ConferenceData } from '../providers/conference-data';
@@ -29,7 +30,8 @@ import { IonicStorageModule } from '@ionic/storage';
     EmployeesPage,
     TerminalModePage,
     SessionDetailPage,
-    UserCheckinsPage
+    UserCheckinsPage,
+    PasswordPage
     // LogoutPage
   ],
   imports: [
@@ -45,7 +47,8 @@ import { IonicStorageModule } from '@ionic/storage';
     EmployeesPage,
     TerminalModePage,
     SessionDetailPage,
-    UserCheckinsPage
+    UserCheckinsPage,
+    PasswordPage
     // LogoutPage
   ],
   providers: [

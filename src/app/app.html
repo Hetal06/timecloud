@@ -1,25 +1,31 @@
-<ion-menu [content]="content">
+<ion-menu id="myMenu" [content]="content" >
   <ion-header>
     <ion-toolbar>
       <ion-title>Menu</ion-title>
+      <!-- <ion-title>Menudd {{active}}</ion-title> -->
     </ion-toolbar>
   </ion-header>
 
   <ion-content>
     <ion-list>
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
+      <!-- {{active}} -->
+      <button menuClose ion-item  *ngFor="let p of pages" (click)="openPage(p)">
+        <span *ngIf="active == true">{{p.title}}</span>
       </button>
-      <h4 style="margin-left: 1rem;">Action</h4>
-      <button menuClose ion-item *ngFor="let t of terminal" (click)="openPage(t)">
-        {{t.title}}
+      <button ion-item  (click)="terminalModeFunc()">
+        {{mode}}
       </button>
-      <button ion-item (click)="logoutApp()">
-          <!--Add this static button for logout-->
+      <button ion-item *ngIf="active == true" (click)="settingFunc()">
+        Setting
+      </button>
+      <button ion-item *ngIf="active == true" (click)="logoutApp()">
         Log Out
       </button>
+
     </ion-list>
   </ion-content>
+
+
 
 </ion-menu>
 

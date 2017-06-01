@@ -7,44 +7,44 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from '../pages/login/login';
 import { EmployeesPage } from '../pages/employees/employees';
 import { TerminalModePage } from '../pages/terminalMode/terminalMode';
+import {PasswordPage} from '../pages/password/password';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
+  public mode : any;
+  public active :boolean;
+
+
+
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = LoginPage;
 
-  pages: Array<{title: string, component: any}>;
-  terminal:Array<{title: string, component: any}>;
+  pages: Array<{title: string, component: any ,active:boolean}>;
+  terminal:Array<{title: string, component: any,active:boolean}>;
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public menu: MenuController) {
     this.initializeApp();
+    this.mode = 'Terminal Mode';
+    this.active=true;
+
+    // localStorage.setItem("flag","true");
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Time Cloud', component: EmployeesPage },
+      { title: 'Time Cloud', component: EmployeesPage ,active:true},
     ];
-    this.terminal = [
-      { title: 'Terminal Mode', component: TerminalModePage },
-      {title : 'Setting',component: TerminalModePage }
-    ];
-
-
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
   }
 
   openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
   logoutApp() { ///<-- call from static button
@@ -54,6 +54,35 @@ export class MyApp {
     localStorage.clear();
     this.menu.close();
     this.nav.push(LoginPage);
+
+  }
+
+  terminalModeFunc(){
+
+
+
+    console.log("u r in terminal mode function");
+    this.menu.close();
+
+    if(this.mode == 'Terminal Mode') {
+      this.mode = 'Leave Terminal Mode';
+
+      if(this.active == true && this.pages[0].active == true){
+        this.active = false;
+        this.pages[0].active == false;
+      }
+      this.nav.push(TerminalModePage);
+    }else if(this.mode == 'Leave Terminal Mode' ){
+      this.nav.push(PasswordPage);
+      // console.log("line 79",localStorage.getItem("flag"));
+      // if(localStorage.getItem("flag") == "false"){
+      //   console.log("line 79",localStorage.getItem("flag"));
+      // }else{
+      //   console.log("line 81",localStorage.getItem("flag"));
+      // }
+    }
+
+
 
   }
 }

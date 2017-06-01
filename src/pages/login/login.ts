@@ -78,6 +78,8 @@ export class LoginPage {
 				pwd: this.login.controls.pwd.value
 			}
 			console.log("this.data -======81=====>"+ JSON.stringify(this.data));
+			localStorage.setItem("loginPwd",this.data.pwd);
+			
 			this.http.post(this.LOGIN_URL, this.data, { headers: this.contentHeader })
 				.map(res => res.json())
 				.subscribe(
@@ -107,6 +109,7 @@ export class LoginPage {
 		localStorage.setItem("loginToken", data.token);
 		localStorage.setItem("userId", data.user);
 		localStorage.setItem("loginEmail", data.email);
+
 
 		if (localStorage.getItem("loginToken")) {
 			console.log("success!");
