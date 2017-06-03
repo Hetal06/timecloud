@@ -8,16 +8,19 @@
 </ion-header>
 <ion-content class="home" padding>
 
-  <ion-list>
-    <div *ngFor="let employee of employeeList">
+  <!-- <ion-list> -->
+    <ion-spinner name="circles" *ngIf="employeeList == 0">
+    </ion-spinner>
+    <ion-list *ngIf="employeeList != 0">
+    <div *ngFor="let employee of employeeList | orderBy :'firstName'">
 
     <ion-item  *ngIf="employee.displayData != false">
-      <h2  style="text-transform: capitalize;">{{employee.firstName}} {{employee.lastName}}
+      <h2  style="text-transform: capitalize;"  (click)='inOutFunc(employee);'>{{employee.firstName}} {{employee.lastName}}
 
         <span style="float: right;" >
-          <button ion-button  *ngIf="employee.status == 'O' ||employee.status == 'OUT'||employee.status == 'Out'" color="danger" (click)='inOutFunc(employee);'> OUT </button>
-          <button ion-button  *ngIf="employee.status == 'I'||employee.status == 'In'||employee.status == 'IN'" color="success" (click)='inOutFunc(employee);'> IN </button>
-          <button ion-button class="breakBtn"  *ngIf="employee.status == 'Break'||employee.status == 3 "  (click)='inOutFunc(employee);'> BREAK </button>
+          <button ion-button  *ngIf="employee.status == 'O' ||employee.status == 'OUT'||employee.status == 'Out'" color="danger" > OUT </button>
+          <button ion-button  *ngIf="employee.status == 'I'||employee.status == 'In'||employee.status == 'IN'" color="success" > IN </button>
+          <button ion-button class="breakBtn"  *ngIf="employee.status == 'Break'||employee.status == 3 " > BREAK </button>
         </span>
       </h2>
     </ion-item>

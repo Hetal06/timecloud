@@ -2,6 +2,7 @@ import { Component, Injectable } from '@angular/core';
 import { NavController, NavParams, AlertController, Platform,LoadingController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { EmployeesPage } from '../employees/employees';
+
 // import { Network } from 'ionic-native';
 // import { JwtHelper } from 'angular2-jwt';
 import { Http, Headers } from '@angular/http';

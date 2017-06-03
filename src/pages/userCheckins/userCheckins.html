@@ -16,13 +16,14 @@
   <ion-list style="text-align: center;">
 
    <span class="setSpan">
-    <img src="../../assets/icon/Icon-user.png" class="img">
+    <img src="./image/Icon-user.png" class="img">
     <h3 class="setStyle"> {{empSingleRec.firstName}} &nbsp;{{empSingleRec.lastName}} &nbsp;</h3>
 
     <ion-label class="currentStatus" >Current Status :</ion-label>
     <ion-label class="statusIn" *ngIf="empSingleRec.status == 'I'" color="success" >IN</ion-label>
-      <ion-label class="status" *ngIf="empSingleRec.status == 'OUT'" color="danger">OUT</ion-label>
-        <ion-label class="statusBreak" *ngIf="empSingleRec.status == '3'">BREAK</ion-label>
+    <ion-label class="status" *ngIf="empSingleRec.status == 'O' ||empSingleRec.status == 'OUT'||empSingleRec.status == 'Out'"  color="danger">OUT</ion-label>
+    <ion-label class="statusBreak" *ngIf="empSingleRec.status == '3'">BREAK</ion-label>
+
 </span>
 
   <div class="setDiv">
@@ -36,7 +37,9 @@
     <button ion-button color="danger"
     (click)="checkInOut(2,empSingleRec.employeeNo)">END	 BREAK</button>
   </div>
-  <button ion-button round color="cancle" class="btn" (click)="cancleBtn();">cancle</button>
+
+    <button ion-button round color="cancle" class="btn" (click)="cancleBtn();">cancle</button>
+
 
 </ion-list>
 </ion-content>

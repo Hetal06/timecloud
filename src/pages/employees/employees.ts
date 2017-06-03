@@ -1,10 +1,12 @@
 import {
   Component
 } from '@angular/core';
+import { OrderrByPipe } from '../../pipes/orderBy';
 import {
   NavController,
   AlertController,
-  NavParams
+  NavParams,
+  LoadingController
 } from 'ionic-angular';
 import {
   Http,
@@ -27,7 +29,8 @@ import * as moment from 'moment';
 
 @Component({
   selector: 'page-employees',
-  templateUrl: 'employees.html'
+  templateUrl: 'employees.html',
+  pipes : [OrderrByPipe]
 })
 export class EmployeesPage {
   public todayDate: any;
@@ -51,6 +54,7 @@ export class EmployeesPage {
   public tempEmpData: any;
   public employeeTemp: any;
   public keys :any;
+  public employeeListAddedDate:any;
 
   loginToken = localStorage.getItem("loginToken");
   loginId = localStorage.getItem("userId");
@@ -65,7 +69,7 @@ export class EmployeesPage {
   select_status: any;
   selected_EmoNo: any;
 
-  constructor(public navCtrl: NavController, private offlineService: Offline, private alertCtrl: AlertController, public http: Http, public employeeService: EmployeeServicePage, public params: NavParams) {
+  constructor(	private loadingCtrl: LoadingController,public navCtrl: NavController, private offlineService: Offline, private alertCtrl: AlertController, public http: Http, public employeeService: EmployeeServicePage, public params: NavParams) {
 
     if (localStorage.getItem("loginToken")) {
       this.loadEmployee();
@@ -193,6 +197,9 @@ export class EmployeesPage {
                   }
                 }
                 this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
+                this.employeeListAddedDate = JSON.parse(localStorage.getItem("employeeList")).addedDate;
+                localStorage.setItem("employeeListAddedDate",JSON.stringify(this.employeeListAddedDate));
+                console.log("line 197",localStorage.getItem("employeeListAddedDate"));
                 localStorage.removeItem("employeeList");
                 localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeList, addedDate: moment().format("YYYY-MM-DD")}));
               }
@@ -202,14 +209,16 @@ export class EmployeesPage {
   }
 
   inOutFunc(employee) {
-    let emp_sigle_rec = {
-      "firstName": employee.firstName,
-      "lastName": employee.lastName,
-      "status": employee.status,
-      "employeeNo": employee.employeeNo,
-      'pin':employee.pin
-    };
-    localStorage.setItem("emp_sigle_rec", JSON.stringify(emp_sigle_rec));
+    let loadingPopup = this.loadingCtrl.create({
+      content: 'Loading data...'
+    });
+    loadingPopup.present();
+
+    setTimeout(() => {
+      localStorage.setItem("emp_sigle_rec", JSON.stringify(employee));
+      loadingPopup.dismiss();
+     }, 1000);
     this.navCtrl.push(UserCheckinsPage);
+
   }
 }

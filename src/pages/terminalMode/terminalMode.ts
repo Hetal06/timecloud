@@ -4,7 +4,8 @@ import {
 import {
   NavController,
   AlertController,
-  NavParams
+  NavParams,
+  Platform
 } from 'ionic-angular';
 import {
   Http,
@@ -23,6 +24,7 @@ import {
   LoginPage
 } from '../login/login';
 import * as moment from 'moment';
+
 // import * as _ from "lodash";
 
 @Component({
@@ -78,12 +80,12 @@ export class TerminalModePage {
   select_status: any;
   selected_EmoNo: any;
 
-  constructor(public navCtrl: NavController, private offlineService: Offline, private alertCtrl: AlertController, public http: Http, public employeeService: EmployeeServicePage, public params: NavParams) {
+  constructor(public platform: Platform,public navCtrl: NavController, private offlineService: Offline, private alertCtrl: AlertController, public http: Http, public employeeService: EmployeeServicePage, public params: NavParams) {
     console.log("line 78",this.userContentHeader);
     console.log("line 78",this.contentHeader);
 
     if (localStorage.getItem("loginToken")) {
-      this.loadEmployee();
+      this.terminalEmp();
       this.select_status = params.get("selectedStatus");
       this.selected_EmoNo = params.data.selectedEmpNo;
     } else {
@@ -91,7 +93,12 @@ export class TerminalModePage {
     }
   }
 
-  loadEmployee() {
+  terminalEmp() {
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(TerminalModePage);
+      });
+ });
     this.employeeService.load().subscribe(
       dataOfEmp => {
         this.employeeList = [];
@@ -213,23 +220,14 @@ export class TerminalModePage {
   }
 
   inOutFunc(employee) {
-    let emp_sigle_rec = {
-      "firstName": employee.firstName,
-      "lastName": employee.lastName,
-      "status": employee.status,
-      "employeeNo": employee.employeeNo,
-      'pin': employee.pin
-    };
-    localStorage.setItem("emp_sigle_rec", JSON.stringify(emp_sigle_rec));
-
-
-
+    localStorage.setItem("emp_sigle_rec", JSON.stringify(employee));
 
     let prompt = this.alertCtrl.create({
      title: 'Please ,Enter Passcode',
 
      inputs: [
        {
+         type: 'password',
          name: 'Passcode',
          placeholder: 'Pin Code',
         },

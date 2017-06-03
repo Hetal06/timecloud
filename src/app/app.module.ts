@@ -13,6 +13,7 @@ import { TerminalModePage } from '../pages/terminalMode/terminalMode';
 import { SessionDetailPage } from '../pages/session-detail/session-detail';
 import { UserCheckinsPage } from '../pages/userCheckins/userCheckins';
 import {PasswordPage} from '../pages/password/password';
+import { OrderrByPipe } from '../pipes/orderBy';
 //providers
 import { UserData } from '../providers/user-data';
 import { ConferenceData } from '../providers/conference-data';
@@ -23,6 +24,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
 
+
 @NgModule({
   declarations: [
     MyApp,
@@ -31,8 +33,9 @@ import { IonicStorageModule } from '@ionic/storage';
     TerminalModePage,
     SessionDetailPage,
     UserCheckinsPage,
-    PasswordPage
-    // LogoutPage
+    PasswordPage,
+    OrderrByPipe
+
   ],
   imports: [
     HttpModule,
@@ -49,6 +52,7 @@ import { IonicStorageModule } from '@ionic/storage';
     SessionDetailPage,
     UserCheckinsPage,
     PasswordPage
+
     // LogoutPage
   ],
   providers: [
