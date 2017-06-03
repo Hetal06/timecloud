@@ -1,5 +1,5 @@
 import { Component, Injectable } from '@angular/core';
-import { NavController, NavParams, AlertController, Platform } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Platform,LoadingController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { EmployeesPage } from '../employees/employees';
 // import { Network } from 'ionic-native';
@@ -42,7 +42,8 @@ export class LoginPage {
 		private formBuilder: FormBuilder,
 		public alertCtrl: AlertController,
 		public http: Http,
-		public platform: Platform
+		public platform: Platform,
+		private loadingCtrl: LoadingController
 
 		// private http: Http
 	) {
@@ -68,6 +69,12 @@ export class LoginPage {
 
 
 	logForm() {
+		let loadingPopup = this.loadingCtrl.create({
+      content: 'Loading data...'
+    });
+
+		loadingPopup.present();
+
 		this.submitAttempt = true;
 		// this.checkNetworkWithWindow();
 		 if (window.navigator.onLine) {
@@ -79,11 +86,16 @@ export class LoginPage {
 			}
 			console.log("this.data -======81=====>"+ JSON.stringify(this.data));
 			localStorage.setItem("loginPwd",this.data.pwd);
-			
+
 			this.http.post(this.LOGIN_URL, this.data, { headers: this.contentHeader })
 				.map(res => res.json())
 				.subscribe(
-				data => this.authSuccess(data),
+				data => {
+				setTimeout(() => {
+					 this.authSuccess(data),
+					 loadingPopup.dismiss();
+				 }, 1000);
+			 },
 				err => this.error = err
 				);
 

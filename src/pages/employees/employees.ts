@@ -136,6 +136,7 @@ export class EmployeesPage {
                         'employeeNo': dataOfEmp.EmployeeData[iter].employeeNo,
                         'firstName': dataOfEmp.EmployeeData[iter].firstName,
                         'lastName': dataOfEmp.EmployeeData[iter].lastName,
+                        'pin': dataOfEmp.EmployeeData[iter].pin,
                         'status': this.tempEmpData.checkin[this.tempEmpData.checkin.length - 1].checkType,
                         'dateTime': this.tempEmpData.checkin[this.tempEmpData.checkin.length - 1].checkTime,
                         'added': true
@@ -146,6 +147,7 @@ export class EmployeesPage {
                         'employeeNo': dataOfEmp.EmployeeData[iter].employeeNo,
                         'firstName': dataOfEmp.EmployeeData[iter].firstName,
                         'lastName': dataOfEmp.EmployeeData[iter].lastName,
+                        'pin': dataOfEmp.EmployeeData[iter].pin,
                         'status': "Out",
                         'dateTime': this.today,
                         'added': true
@@ -204,7 +206,8 @@ export class EmployeesPage {
       "firstName": employee.firstName,
       "lastName": employee.lastName,
       "status": employee.status,
-      "employeeNo": employee.employeeNo
+      "employeeNo": employee.employeeNo,
+      'pin':employee.pin
     };
     localStorage.setItem("emp_sigle_rec", JSON.stringify(emp_sigle_rec));
     this.navCtrl.push(UserCheckinsPage);

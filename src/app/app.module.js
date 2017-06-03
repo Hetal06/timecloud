@@ -12,11 +12,12 @@ import { HttpModule } from '@angular/http';
 import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
 import { EmployeesPage } from '../pages/employees/employees';
-import { Offline } from '../providers/offline';
 import { TerminalModePage } from '../pages/terminalMode/terminalMode';
 import { SessionDetailPage } from '../pages/session-detail/session-detail';
 import { UserCheckinsPage } from '../pages/userCheckins/userCheckins';
 //providers
+import { Offline } from '../providers/offline';
+import { PincodeServicePage } from '../providers/pincode-service';
 import { UserData } from '../providers/user-data';
 import { NetworkServicePage } from '../providers/network-service';
 import { ConferenceData } from '../providers/conference-data';
@@ -58,6 +59,7 @@ AppModule = __decorate([
         ],
         providers: [
             NetworkServicePage,
+            PincodeServicePage,
             ConferenceData,
             EmployeeServicePage,
             Offline,

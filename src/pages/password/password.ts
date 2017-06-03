@@ -1,5 +1,5 @@
 import { Component, Injectable } from '@angular/core';
-import { NavController, NavParams, AlertController, Platform } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Platform,LoadingController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { EmployeesPage } from '../employees/employees';
 // import { Network } from 'ionic-native';
@@ -41,7 +41,8 @@ export class PasswordPage {
 		private formBuilder: FormBuilder,
 		public alertCtrl: AlertController,
 		public http: Http,
-		public platform: Platform
+		public platform: Platform,
+		public loadingCtrl: LoadingController
 	) {
 		this.flag = true;
 		this.password = formBuilder.group({
@@ -74,7 +75,17 @@ export class PasswordPage {
 	      buttons: ['OK']
 	    });
 	    alert.present();
-			this.navCtrl.push(PasswordPage);
-			}
+
+			let loading = this.loadingCtrl.create({
+			    content: 'Please wait...'
+			  });
+
+			  loading.present();
+
+			  setTimeout(() => {
+			    loading.dismiss();
+			  }, 5000);
+				this.navCtrl.push(PasswordPage);
+				}
 	}
 }

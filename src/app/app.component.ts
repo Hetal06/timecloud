@@ -25,7 +25,9 @@ export class MyApp {
   pages: Array<{title: string, component: any ,active:boolean}>;
   terminal:Array<{title: string, component: any,active:boolean}>;
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public menu: MenuController) {
+
     this.initializeApp();
+    localStorage.setItem("bTerminalMode","false");
     this.mode = 'Terminal Mode';
     this.active=true;
 
@@ -58,31 +60,20 @@ export class MyApp {
   }
 
   terminalModeFunc(){
-
-
-
     console.log("u r in terminal mode function");
     this.menu.close();
 
     if(this.mode == 'Terminal Mode') {
       this.mode = 'Leave Terminal Mode';
-
+      localStorage.setItem("bTerminalMode","true");
       if(this.active == true && this.pages[0].active == true){
         this.active = false;
         this.pages[0].active == false;
       }
       this.nav.push(TerminalModePage);
     }else if(this.mode == 'Leave Terminal Mode' ){
+      localStorage.setItem("bTerminalMode","false");
       this.nav.push(PasswordPage);
-      // console.log("line 79",localStorage.getItem("flag"));
-      // if(localStorage.getItem("flag") == "false"){
-      //   console.log("line 79",localStorage.getItem("flag"));
-      // }else{
-      //   console.log("line 81",localStorage.getItem("flag"));
-      // }
     }
-
-
-
   }
 }

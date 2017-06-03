@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController,NavParams } from 'ionic-angular';
 import { Http,Headers} from '@angular/http';
 import { EmployeesPage } from '../employees/employees';
+import { TerminalModePage } from '../terminalMode/terminalMode';
 import { EmployeeServicePage } from '../../providers/employee-service';
 import * as moment from 'moment';
 import { LoginPage } from '../login/login';
@@ -36,19 +37,19 @@ export class UserCheckinsPage {
 
 		if(localStorage.getItem("loginToken")) {
 			this.empSingleRec = JSON.parse(localStorage.getItem("emp_sigle_rec"));
+			console.log("line 39 email",this.empSingleRec.pin);
 			this.emp_no = this.empSingleRec.employeeNo;
 			this.old_status = this.empSingleRec.status;
 			} else {
 			this.navCtrl.push(LoginPage);
 		}
 
-
 	}
 
 	checkInOut(clickUserStatus,clickEmpNo){
 
-		 this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
-		 console.log("line 50",this.employeeList);
+	 this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
+	 console.log("line 50",this.employeeList);
 
 		if (clickUserStatus == 1 || clickUserStatus == 2 || clickUserStatus == 'i' || clickUserStatus == 'I' || clickUserStatus == 'IN') {
 			this.checktype = 'I';
@@ -79,8 +80,16 @@ export class UserCheckinsPage {
 									}
 								}
 							  localStorage.removeItem("employeeList");
-								 localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeList, addedDate: moment().format("YYYY-MM-DD")}));
-								this.navCtrl.push(EmployeesPage);
+								localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeList, addedDate: moment().format("YYYY-MM-DD")}));
+
+								if(localStorage.getItem("bTerminalMode") == "false"){
+									console.log("line 86 terminalmode",localStorage.getItem("bTerminalMode"));
+										this.navCtrl.push(EmployeesPage);
+								}else if(localStorage.getItem("bTerminalMode") == "true"){
+									console.log("line 89 terminalmode",localStorage.getItem("bTerminalMode"));
+										this.navCtrl.push(TerminalModePage);
+								}
+
 
 							}
 						},error =>{

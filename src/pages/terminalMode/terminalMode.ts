@@ -51,15 +51,27 @@ export class TerminalModePage {
   public tempEmpData: any;
   public employeeTemp: any;
   public keys :any;
-  
+  public getUserPin :any;
+  public getUserOwnData:any;
+  public pincode :any;
+
 
   loginToken = localStorage.getItem("loginToken");
   loginId = localStorage.getItem("userId");
   loginEmail = localStorage.getItem("loginEmail");
+  GetUserOwnData_URL = "http://192.241.230.86:4000/employeeOwnData";
   GetCheckin_URL: string = "http://192.241.230.86:4000/currentCheckin";
+  CheckUserPin_URL : string = "http://192.241.230.86:4000/checkuserpin";
   contentHeader: Headers = new Headers({
     "Content-Type": "application/json",
     "Authorization": this.loginId
+  });
+  userContentHeader: Headers = new Headers({
+    "Content-Type": "application/json",
+    "token": this.loginToken
+  });
+  pinContentHeader: Headers = new Headers({
+    "Content-Type": "application/json",
   });
 
   data: any;
@@ -67,6 +79,9 @@ export class TerminalModePage {
   selected_EmoNo: any;
 
   constructor(public navCtrl: NavController, private offlineService: Offline, private alertCtrl: AlertController, public http: Http, public employeeService: EmployeeServicePage, public params: NavParams) {
+    console.log("line 78",this.userContentHeader);
+    console.log("line 78",this.contentHeader);
+
     if (localStorage.getItem("loginToken")) {
       this.loadEmployee();
       this.select_status = params.get("selectedStatus");
@@ -133,6 +148,7 @@ export class TerminalModePage {
                         'employeeNo': dataOfEmp.EmployeeData[iter].employeeNo,
                         'firstName': dataOfEmp.EmployeeData[iter].firstName,
                         'lastName': dataOfEmp.EmployeeData[iter].lastName,
+                        'pin': dataOfEmp.EmployeeData[iter].pin,
                         'status': this.tempEmpData.checkin[this.tempEmpData.checkin.length - 1].checkType,
                         'dateTime': this.tempEmpData.checkin[this.tempEmpData.checkin.length - 1].checkTime,
                         'added': true
@@ -143,6 +159,7 @@ export class TerminalModePage {
                         'employeeNo': dataOfEmp.EmployeeData[iter].employeeNo,
                         'firstName': dataOfEmp.EmployeeData[iter].firstName,
                         'lastName': dataOfEmp.EmployeeData[iter].lastName,
+                        'pin': dataOfEmp.EmployeeData[iter].pin,
                         'status': "Out",
                         'dateTime': this.today,
                         'added': true
@@ -200,9 +217,59 @@ export class TerminalModePage {
       "firstName": employee.firstName,
       "lastName": employee.lastName,
       "status": employee.status,
-      "employeeNo": employee.employeeNo
+      "employeeNo": employee.employeeNo,
+      'pin': employee.pin
     };
     localStorage.setItem("emp_sigle_rec", JSON.stringify(emp_sigle_rec));
-    this.navCtrl.push(UserCheckinsPage);
+
+
+
+
+    let prompt = this.alertCtrl.create({
+     title: 'Please ,Enter Passcode',
+
+     inputs: [
+       {
+         name: 'Passcode',
+         placeholder: 'Pin Code',
+        },
+     ],
+     buttons: [
+       {
+         text: 'Cancel',
+         handler: data => {
+           console.log('Cancel clicked');
+         }
+       },
+       {
+         text: 'OK',
+         handler: data => {
+           console.log("data Passcode",data.Passcode);
+           if(data.Passcode == employee.pin){
+            let body ={
+               userId:this.loginId,
+               pincode:employee.pin
+             }
+
+             this.http.post(this.CheckUserPin_URL, body,{headers :this.pinContentHeader})
+                             .subscribe(dataOfPincodeEmp => {
+                               this.getUserPin =dataOfPincodeEmp.json();
+                               console.log("line 224",this.getUserPin);
+                     });
+           this.navCtrl.push(UserCheckinsPage);
+           }else{
+             let alert= this.alertCtrl.create({
+               title:"Enter Wrong Pincode",
+               buttons: ['OK']
+             });
+             alert.present();
+           }
+
+         }
+       }
+     ]
+   });
+   prompt.present();
+
   }
 }
