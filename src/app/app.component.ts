@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
+import {SettingPage} from '../pages/setting/setting';
 
 import { LoginPage } from '../pages/login/login';
 import { EmployeesPage } from '../pages/employees/employees';
@@ -45,9 +45,14 @@ export class MyApp {
       this.splashScreen.hide();
     });
   }
+  settingFunc(){
+    this.menu.close();
+    this.nav.push(SettingPage);
+  }
 
   openPage(page) {
     this.nav.setRoot(page.component);
+    this.nav.push(LoginPage);
   }
   logoutApp() { ///<-- call from static button
     console.log("logout successfully");

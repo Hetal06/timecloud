@@ -13,7 +13,8 @@ import { TerminalModePage } from '../pages/terminalMode/terminalMode';
 import { SessionDetailPage } from '../pages/session-detail/session-detail';
 import { UserCheckinsPage } from '../pages/userCheckins/userCheckins';
 import {PasswordPage} from '../pages/password/password';
-import { OrderrByPipe } from '../pipes/orderBy';
+import {SettingPage} from '../pages/setting/setting';
+// import { OrderrByPipe } from '../pipes/orderBy';
 //providers
 import { UserData } from '../providers/user-data';
 import { ConferenceData } from '../providers/conference-data';
@@ -23,7 +24,8 @@ import { EmployeeServicePage } from '../providers/employee-service';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
-
+import { GoogleMaps} from '@ionic-native/google-maps';
+import { Geolocation } from '@ionic-native/geolocation';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { IonicStorageModule } from '@ionic/storage';
     SessionDetailPage,
     UserCheckinsPage,
     PasswordPage,
-    OrderrByPipe
+    SettingPage
+
+    // OrderrByPipe
 
   ],
   imports: [
@@ -51,18 +55,21 @@ import { IonicStorageModule } from '@ionic/storage';
     TerminalModePage,
     SessionDetailPage,
     UserCheckinsPage,
-    PasswordPage
+    PasswordPage,
+    SettingPage
 
     // LogoutPage
   ],
   providers: [
+    GoogleMaps,
     ConferenceData,
     EmployeeServicePage,
     Offline,
     StatusBar,
     UserData,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    Geolocation
   ]
 })
 export class AppModule {}

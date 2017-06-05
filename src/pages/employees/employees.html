@@ -8,15 +8,10 @@
 </ion-header>
 <ion-content class="home" padding>
 
-  <!-- <ion-list> -->
-    <ion-spinner name="circles" *ngIf="employeeList == 0">
-    </ion-spinner>
-    <ion-list *ngIf="employeeList != 0">
-    <div *ngFor="let employee of employeeList | orderBy :'firstName'">
-
-    <ion-item  *ngIf="employee.displayData != false">
-      <h2  style="text-transform: capitalize;"  (click)='inOutFunc(employee);'>{{employee.firstName}} {{employee.lastName}}
-
+  <ion-list>
+    <div *ngFor="let employee of employeeList">
+      <ion-item  *ngIf="employee.displayData != false">
+        <h2  style="text-transform: capitalize;"  (click)='inOutFunc(employee);'>{{employee.firstName}} {{employee.lastName}}
         <span style="float: right;" >
           <button ion-button  *ngIf="employee.status == 'O' ||employee.status == 'OUT'||employee.status == 'Out'" color="danger" > OUT </button>
           <button ion-button  *ngIf="employee.status == 'I'||employee.status == 'In'||employee.status == 'IN'" color="success" > IN </button>

@@ -1,7 +1,7 @@
 import {
   Component
 } from '@angular/core';
-import { OrderrByPipe } from '../../pipes/orderBy';
+//import { OrderrByPipe } from '../../pipes/orderBy';
 import {
   NavController,
   AlertController,
@@ -30,7 +30,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'page-employees',
   templateUrl: 'employees.html',
-  pipes : [OrderrByPipe]
+//  pipes : [OrderrByPipe]
 })
 export class EmployeesPage {
   public todayDate: any;
@@ -69,7 +69,7 @@ export class EmployeesPage {
   select_status: any;
   selected_EmoNo: any;
 
-  constructor(	private loadingCtrl: LoadingController,public navCtrl: NavController, private offlineService: Offline, private alertCtrl: AlertController, public http: Http, public employeeService: EmployeeServicePage, public params: NavParams) {
+  constructor(private loadingCtrl: LoadingController,public navCtrl: NavController, private offlineService: Offline, private alertCtrl: AlertController, public http: Http, public employeeService: EmployeeServicePage, public params: NavParams) {
 
     if (localStorage.getItem("loginToken")) {
       this.loadEmployee();
@@ -209,15 +209,16 @@ export class EmployeesPage {
   }
 
   inOutFunc(employee) {
-    let loadingPopup = this.loadingCtrl.create({
-      content: 'Loading data...'
-    });
-    loadingPopup.present();
-
-    setTimeout(() => {
-      localStorage.setItem("emp_sigle_rec", JSON.stringify(employee));
-      loadingPopup.dismiss();
-     }, 1000);
+    localStorage.setItem("emp_sigle_rec", JSON.stringify(employee));
+    // let loadingPopup = this.loadingCtrl.create({
+    //   content: 'Loading data...'
+    // });
+    // loadingPopup.present();
+    //
+    // setTimeout(() => {
+    //
+    //   loadingPopup.dismiss();
+    //  }, 1000);
     this.navCtrl.push(UserCheckinsPage);
 
   }
