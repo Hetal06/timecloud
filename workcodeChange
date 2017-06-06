@@ -1,0 +1,40 @@
+//alert("enter job code");
+let prompt = this.alertCtrl.create({
+ title: 'Please ,Enter Jobcode',
+
+ inputs: [
+   {
+     type: 'password',
+     name: 'jobcode',
+     placeholder: 'Job Code',
+    },
+ ],
+ buttons: [
+   {
+     text: 'Cancel',
+     handler: data => {
+       console.log('Cancel clicked');
+     }
+   },
+   {
+     text: 'OK',
+     handler: data => {
+       console.log("Jobcode",data.jobcode);
+      //  if(data.Passcode == employee.pin){
+        let body ={
+           userId:this.loginId,
+           jobcode:data.jobcode
+         }
+
+         this.http.post(this.ChangeJobcode_URL, body,{headers :this.contentHeader})
+                         .subscribe(dataOfPincodeEmp => {
+                           this.changeJobcode =dataOfPincodeEmp.json();
+                           localStorage.setItem("changeJobcode",this.changeJobcode);
+                           console.log("line 224",this.changeJobcode);
+                 });
+       this.navCtrl.push(UserCheckinsPage);
+     }
+   }
+ ]
+});
+prompt.present();

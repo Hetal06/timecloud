@@ -56,6 +56,7 @@ export class EmployeesPage {
   public keys :any;
   public employeeListAddedDate:any;
 
+  jobCosting=localStorage.getItem("jobCosting");
   loginToken = localStorage.getItem("loginToken");
   loginId = localStorage.getItem("userId");
   loginEmail = localStorage.getItem("loginEmail");
@@ -70,7 +71,7 @@ export class EmployeesPage {
   selected_EmoNo: any;
 
   constructor(private loadingCtrl: LoadingController,public navCtrl: NavController, private offlineService: Offline, private alertCtrl: AlertController, public http: Http, public employeeService: EmployeeServicePage, public params: NavParams) {
-
+    console.log("line 74 jobCosting" , this.jobCosting);
     if (localStorage.getItem("loginToken")) {
       this.loadEmployee();
       this.select_status = params.get("selectedStatus");
@@ -106,11 +107,11 @@ export class EmployeesPage {
 								 	localStorage.removeItem("employeeList");
                  } else {
                    this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
-                   console.log("line 115 else localStorage getItem ",this.employeeList);
+                   //console.log("line 115 else localStorage getItem ",this.employeeList);
                     this.bLocal = true;
-                    console.log("line 121",this.bLocal);
+                    //console.log("line 121",this.bLocal);
                      if (dataOfEmp.EmployeeData.length !== this.employeeList.length) {
-                      console.log("line 109", dataOfEmp.EmployeeData.length, "!==", this.employeeList.length);
+                      //console.log("line 109", dataOfEmp.EmployeeData.length, "!==", this.employeeList.length);
                        this.bCountMatch = false;
                       } else {
                        this.bCountMatch = true;
@@ -165,7 +166,7 @@ export class EmployeesPage {
                 var oldRec =this.employeeList.length;
                 var countRec = newRec - oldRec;
                 for (let i = 0; i < countRec; i++) {
-                  console.log("line 180====>",countRec );
+                  //console.log("line 180====>",countRec );
                   this.employeeList.push(this.employeeTemp[i]);
                 }
                 localStorage.removeItem("employeeList");
@@ -199,7 +200,7 @@ export class EmployeesPage {
                 this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
                 this.employeeListAddedDate = JSON.parse(localStorage.getItem("employeeList")).addedDate;
                 localStorage.setItem("employeeListAddedDate",JSON.stringify(this.employeeListAddedDate));
-                console.log("line 197",localStorage.getItem("employeeListAddedDate"));
+                //console.log("line 197",localStorage.getItem("employeeListAddedDate"));
                 localStorage.removeItem("employeeList");
                 localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeList, addedDate: moment().format("YYYY-MM-DD")}));
               }
@@ -209,6 +210,13 @@ export class EmployeesPage {
   }
 
   inOutFunc(employee) {
+    if(this.jobCosting == "true"){
+      alert("enter job code");
+        this.navCtrl.push(UserCheckinsPage);
+    }else{
+      alert("please,go to the settings and turn on Jobcode");
+        this.navCtrl.push(EmployeesPage);
+    }
     localStorage.setItem("emp_sigle_rec", JSON.stringify(employee));
     // let loadingPopup = this.loadingCtrl.create({
     //   content: 'Loading data...'
@@ -219,7 +227,7 @@ export class EmployeesPage {
     //
     //   loadingPopup.dismiss();
     //  }, 1000);
-    this.navCtrl.push(UserCheckinsPage);
+    //this.navCtrl.push(UserCheckinsPage);
 
   }
 }

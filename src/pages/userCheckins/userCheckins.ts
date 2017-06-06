@@ -36,6 +36,7 @@ export class UserCheckinsPage {
 	public map:any;
 	public lat:any;
 	public lon:any;
+	public changeJobcode:any;
 
 	loginToken = localStorage.getItem("loginToken");
 	loginId = localStorage.getItem("userId");
@@ -67,7 +68,8 @@ export class UserCheckinsPage {
 
 	checkInOut(clickUserStatus,clickEmpNo){
 		console.log("this.lat=",this.lat,"this.lon ",this.lon);
-
+		this.changeJobcode=localStorage.getItem("changeJobcode");
+		console.log("changeJobcode is",this.changeJobcode);
 	 this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
 //	 console.log("line 50",this.employeeList);
 	 this.employeeListAddedDate=JSON.parse(localStorage.getItem("employeeListAddedDate"));
@@ -88,7 +90,7 @@ export class UserCheckinsPage {
 			"employeeNo":this.emp_no,
 			"checkType": this.checktype,
 			"timeIn": moment(this.dateTime).format("YYYY-MM-DD HH:mm:ss"),
-			// "Jobcode":,
+			// "workcode":this.changeJobcode,
 			"lat":this.lat,
 			"lon":this.lon
 		}

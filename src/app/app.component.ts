@@ -2,8 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import {SettingPage} from '../pages/setting/setting';
 
+import {SettingPage} from '../pages/setting/setting';
 import { LoginPage } from '../pages/login/login';
 import { EmployeesPage } from '../pages/employees/employees';
 import { TerminalModePage } from '../pages/terminalMode/terminalMode';
