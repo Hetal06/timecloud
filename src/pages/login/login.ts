@@ -57,10 +57,8 @@ export class LoginPage {
 
 		this.email = this.login.controls['email'];
 		this.pwd = this.login.controls['pwd'];
-		console.log("logout mcd ethod run", this.email, "======>\n\n", this.pwd);
 
 		if (localStorage.getItem("loginToken")) {
-			console.log("success!");
 			this.navCtrl.push(EmployeesPage);
 		}
 
@@ -71,7 +69,7 @@ export class LoginPage {
 
 	logForm() {
 		let loadingPopup = this.loadingCtrl.create({
-      content: 'Loading data...'
+      content: ''
     });
 
 		loadingPopup.present();
@@ -79,13 +77,11 @@ export class LoginPage {
 		this.submitAttempt = true;
 		// this.checkNetworkWithWindow();
 		 if (window.navigator.onLine) {
-			console.log("connection check");
-			 console.log(this.login.controls.email.value, "", this.login.controls.pwd.value);
+
 			this.data = {
 				email: this.login.controls.email.value,
 				pwd: this.login.controls.pwd.value
 			}
-			console.log("this.data -======81=====>"+ JSON.stringify(this.data));
 			localStorage.setItem("loginPwd",this.data.pwd);
 
 			this.http.post(this.LOGIN_URL, this.data, { headers: this.contentHeader })
@@ -118,19 +114,16 @@ export class LoginPage {
 
 	authSuccess(data) {
 		this.error = null;
-		console.log("authSuccess data" + data);
 		localStorage.setItem("loginToken", data.token);
 		localStorage.setItem("userId", data.user);
 		localStorage.setItem("loginEmail", data.email);
 
 
 		if (localStorage.getItem("loginToken")) {
-			console.log("success!");
 			this.navCtrl.push(EmployeesPage);
 
 		}else{
-
-			console.log("invalid email and pwd");
+			console.info("invalid email and pwd");
 		}
 	}
 

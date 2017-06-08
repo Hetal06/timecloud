@@ -9,7 +9,7 @@
 <ion-content class="home" padding>
 
   <ion-list>
-    <div *ngFor="let employee of employeeList">
+    <div *ngFor="let employee of employeeList | orderBy : ['firstName']">
 
     <ion-item  *ngIf="employee.displayData != false">
       <h2  style="text-transform: capitalize;" (click)='inOutFunc(employee);' >{{employee.firstName}} {{employee.lastName}}

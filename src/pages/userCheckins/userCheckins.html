@@ -28,17 +28,17 @@
 
   <div class="setDiv">
   	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button ion-button color="success"
+    <button ion-button color="success" class="upperBtn"
     (click)="checkInOut('IN',empSingleRec.employeeNo)" >IN</button>
-    <button ion-button color="danger"
-    (click)="checkInOut('OUT',empSingleRec.employeeNo)">OUT</button><br>
-    <button ion-button color="warning"
-    (click)="checkInOut('Break',empSingleRec.employeeNo)">START BREAK</button>
-    <button ion-button color="danger"
+    <button ion-button color="warning" class="upperBtn"
+    (click)="checkInOut('Break',empSingleRec.employeeNo)">START BREAK</button><br>
+    <button ion-button color="danger" class="lowerBtn"
+    (click)="checkInOut('OUT',empSingleRec.employeeNo)">OUT</button>
+    <button ion-button color="danger" class="lowerBtn"
     (click)="checkInOut(2,empSingleRec.employeeNo)">END	 BREAK</button>
   </div>
 
-    <button ion-button round color="cancle" class="btn" (click)="cancleBtn();">cancle</button>
+    <button ion-button round color="cancle" class="cancleBtn" (click)="cancleBtn();">cancle</button>
 
 
 </ion-list>

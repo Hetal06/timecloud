@@ -10,12 +10,11 @@
 </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <ion-list>
-    <ion-item>
-     <ion-label>Job Code</ion-label>{{jobCosting}}
-     <ion-toggle  checked="{{jobCosting}}" (ionChange)="toggleBtn($event)"></ion-toggle>
-     <!-- <ion-toggle [ngModel]="jobCostingValue" [ngModel]="jobCosting" (ngModelChange)="toggleBtn($event)" [checked]="{{jobCosting}}" yellow></ion-toggle> -->
-   </ion-item>
-</ion-list>
+  <ion-content padding class="SettingPage">
+    <div *ngIf="toggleBtn">
+        <ion-item>
+            <ion-label>Job code</ion-label>
+            <ion-toggle [(ngModel)]="toggleBtn.jobCosting"></ion-toggle>
+        </ion-item>
+    </div>
 </ion-content>

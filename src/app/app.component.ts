@@ -28,6 +28,7 @@ export class MyApp {
 
     this.initializeApp();
     localStorage.setItem("bTerminalMode","false");
+    console.log("login time teminal mode",localStorage.getItem("bTerminalMode"));
     this.mode = 'Terminal Mode';
     this.active=true;
 
@@ -58,6 +59,7 @@ export class MyApp {
     console.log("logout successfully");
     localStorage.removeItem("loginToken");
     localStorage.removeItem("userId");
+    localStorage.removeItem("employeeList");
     localStorage.clear();
     this.menu.close();
     this.nav.push(LoginPage);

@@ -1,3 +1,12 @@
+#rcorners2 {
+  border-radius: 25px;
+  border: 5px solid #3b95ca;
+  padding: 0px;
+  // width: 300px;
+  // height: 138px;
+  // margin: 4rem 6rem;
+
+}
 
   #map {
     height: 100%;
@@ -12,6 +21,7 @@
 .statusIn{
 	margin:	-54px -179px 13px 0;
 	font-size: 1.5rem;
+  padding-left: 73px;
 	color: blue;
 }
 .setDiv
@@ -22,7 +32,7 @@
     align-items: center;
     width: 100%;
     padding-left: 0px;
-    padding-top: 200px;
+    padding-top: 43px;
     font-size: xx-large;
 }
 .img{
@@ -50,10 +60,16 @@
     font-weight: inherit;
     line-height: 1.2;
 }
+.upperBtn{
+  margin: 2rem 3rem 0rem -2rem;
+}
+.lowerBtn{
+  margin: 0rem 0rem 0rem 1rem;;
+}
 .currentStatus{
-	margin: -35px -26px -57px 15px;
+	  margin: -35px -38px -57px 15px;
     color: #343434;
-    padding: 0 .6em;
+    padding-left: 66px;
     height: 25px;
     font-size: 1.5rem;
     margin-bottom: 3rem;
@@ -63,10 +79,13 @@
     border-radius: 0;*/
 }
 .status{
-margin:	-53px -185px 13px 0;
+margin:	-53px -254px 13px 0;
 font-size: 1.5rem;
+
 }
-.btn{
-    padding: 20px 10.6rem;
-    border-radius: 200px;
+.cancleBtn{
+  padding: 23px 9.6rem;
+  margin-top: 23px;
+  // margin: 0rem 6rem;
+  // border-radius: 200px;
 }

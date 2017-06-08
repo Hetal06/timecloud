@@ -14,7 +14,7 @@ import { SessionDetailPage } from '../pages/session-detail/session-detail';
 import { UserCheckinsPage } from '../pages/userCheckins/userCheckins';
 import {PasswordPage} from '../pages/password/password';
 import {SettingPage} from '../pages/setting/setting';
-// import { OrderrByPipe } from '../pipes/orderBy';
+ import { OrderBy } from '../pipes/orderBy';
 //providers
 import { UserData } from '../providers/user-data';
 import { ConferenceData } from '../providers/conference-data';
@@ -36,9 +36,8 @@ import { Geolocation } from '@ionic-native/geolocation';
     SessionDetailPage,
     UserCheckinsPage,
     PasswordPage,
-    SettingPage
-
-    // OrderrByPipe
+    SettingPage,
+    OrderBy
 
   ],
   imports: [

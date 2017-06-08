@@ -68,12 +68,9 @@ export class UserCheckinsPage {
 
 	checkInOut(clickUserStatus,clickEmpNo){
 		console.log("this.lat=",this.lat,"this.lon ",this.lon);
-		this.changeJobcode=localStorage.getItem("changeJobcode");
-		console.log("changeJobcode is",this.changeJobcode);
+
 	 this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
-//	 console.log("line 50",this.employeeList);
-	 this.employeeListAddedDate=JSON.parse(localStorage.getItem("employeeListAddedDate"));
-	// console.log("line 55",this.employeeListAddedDate);
+	 this.employeeListAddedDate=JSON.parse(localStorage.getItem("employeeList")).addedDate;
 		if (clickUserStatus == 1 || clickUserStatus == 2 || clickUserStatus == 'i' || clickUserStatus == 'I' || clickUserStatus == 'IN') {
 			this.checktype = 'I';
 		} else {
@@ -90,18 +87,16 @@ export class UserCheckinsPage {
 			"employeeNo":this.emp_no,
 			"checkType": this.checktype,
 			"timeIn": moment(this.dateTime).format("YYYY-MM-DD HH:mm:ss"),
-			// "workcode":this.changeJobcode,
 			"lat":this.lat,
 			"lon":this.lon
 		}
-		let loadingPopup = this.loadingCtrl.create({
-			content: 'Loading data...'
-		});
-		loadingPopup.present();
+		// let loadingPopup = this.loadingCtrl.create({
+		// 	content: ''
+		// });
+		// loadingPopup.present();
 		this.http.post('http://192.241.230.86:4000/insertCheckins', this.body, { headers: this.contentHeader })
 						.subscribe(data => {
 							data.json();
-							console.log("line 102", data.json());
 							if (data.json()) {
 							for(let i=0;i<this.employeeList.length;i++){
 								  	if(this.employeeList[i].employeeNo == this.emp_no ){
@@ -109,43 +104,38 @@ export class UserCheckinsPage {
 									}
 								}
 							  localStorage.removeItem("employeeList");
-								setTimeout(() => {
-									localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeList, addedDate: this.employeeListAddedDate}));
-									//console.log("line 86  --->",localStorage.getItem("employeeList"));
-						      loadingPopup.dismiss();
-						     }, 1000);
-
-
+								localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeList, addedDate: this.employeeListAddedDate}));
+								
 								if(localStorage.getItem("bTerminalMode") == "false"){
-									//console.log("line 86 terminalmode",localStorage.getItem("bTerminalMode"));
 										this.navCtrl.push(EmployeesPage);
 								}else if(localStorage.getItem("bTerminalMode") == "true"){
-									//console.log("line 89 terminalmode",localStorage.getItem("bTerminalMode"));
 										this.navCtrl.push(TerminalModePage);
 								}
 							}
 						},error =>{
-							//console.log("line 62 error");
+							console.log("error");
 						});
 
 	}
 
 	cancleBtn(){
-		let loadingPopup = this.loadingCtrl.create({
-			content: ''
-		});
-		loadingPopup.present();
+		// let loadingPopup = this.loadingCtrl.create({
+		// 	content: ''
+		// });
+		// loadingPopup.present();
 		if(localStorage.getItem("bTerminalMode") == "false"){
-			setTimeout(() => {
 				this.navCtrl.push(EmployeesPage);
-				loadingPopup.dismiss();
-			 }, 1000);
+			// setTimeout(() => {
+			//
+			// 	loadingPopup.dismiss();
+			//  }, 1000);
 
 		}else if(localStorage.getItem("bTerminalMode") == "true"){
-			setTimeout(() => {
-					this.navCtrl.push(TerminalModePage);
-				loadingPopup.dismiss();
-			 }, 1000);
+				this.navCtrl.push(TerminalModePage);
+			// setTimeout(() => {
+			//
+			// 	loadingPopup.dismiss();
+			//  }, 1000);
 		}
 
 	}

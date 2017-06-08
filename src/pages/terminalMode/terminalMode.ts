@@ -5,7 +5,8 @@ import {
   NavController,
   AlertController,
   NavParams,
-  Platform
+  Platform,
+  LoadingController
 } from 'ionic-angular';
 import {
   Http,
@@ -80,12 +81,20 @@ export class TerminalModePage {
   select_status: any;
   selected_EmoNo: any;
 
-  constructor(public platform: Platform,public navCtrl: NavController, private offlineService: Offline, private alertCtrl: AlertController, public http: Http, public employeeService: EmployeeServicePage, public params: NavParams) {
+  constructor(private loadingCtrl: LoadingController,public platform: Platform,public navCtrl: NavController, private offlineService: Offline, private alertCtrl: AlertController, public http: Http, public employeeService: EmployeeServicePage, public params: NavParams) {
     console.log("line 78",this.userContentHeader);
     console.log("line 78",this.contentHeader);
+    let loadingPopup = this.loadingCtrl.create({
+      content: ''
+    });
+    loadingPopup.present();
 
     if (localStorage.getItem("loginToken")) {
-      this.terminalEmp();
+      setTimeout(() => {
+        this.terminalEmp();
+        loadingPopup.dismiss();
+      }, 2000);
+
       this.select_status = params.get("selectedStatus");
       this.selected_EmoNo = params.data.selectedEmpNo;
     } else {
@@ -223,7 +232,7 @@ export class TerminalModePage {
     localStorage.setItem("emp_sigle_rec", JSON.stringify(employee));
 
     let prompt = this.alertCtrl.create({
-     title: 'Please ,Enter Passcode',
+     title: 'Please Enter Passcode',
 
      inputs: [
        {

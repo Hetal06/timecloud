@@ -29,18 +29,7 @@ toggleBtn(evt){
 	}
 	localStorage.setItem("jobCosting",this.jobCosting);
 	console.log("222222  after call function",this.jobCosting);
-	// if(this.jobCosting == false){
-	// 	this.jobCosting = true;
-	// 	console.log("if setting page",this.jobCosting);
-	// 	localStorage.setItem("jobCosting",this.jobCosting);
-	// 	console.log(" if setting page",localStorage.getItem("jobCosting"));
-	// }else{
-	// 	this.jobCosting = false;
-	// 	console.log("else setting page",this.jobCosting);
-	// 	localStorage.setItem("jobCosting",this.jobCosting);
-	// 	console.log(" else setting page",localStorage.getItem("jobCosting"));
-	//
-	// }
+	
 }
 
 }
