@@ -129,17 +129,17 @@ export class EmployeesPage {
               var status = '';
               this.employeeTemp = [];
               for (var iter in dataOfEmp.EmployeeData) {
-                // console.log("load 1st");
+                console.log("load 1st");
                 for (var innerIter in this.employeeCheckIns) {
-                  // console.log("load 2nd");
+                  console.log("load 2nd");
                   this.tempEmpData = this.employeeCheckIns[innerIter];
                   if (this.tempEmpData.employeeNo == dataOfEmp.EmployeeData[iter].employeeNo) {
-                    // console.log("load 3rd");
+                    console.log("load 3rd");
                     if (this.tempEmpData.checkin.length > 0) {
-                      // console.log("load 4th");
+                      console.log("load 4th");
                       status = '';
                       if (this.tempEmpData.checkin[this.tempEmpData.checkin.length - 1].checkType == 1 || this.tempEmpData.checkin[this.tempEmpData.checkin.length - 1].checkType == 2 || this.tempEmpData.checkin[this.tempEmpData.checkin.length - 1].checkType == 'i' || this.tempEmpData.checkin[this.tempEmpData.checkin.length - 1].checkType == 'I') {
-                        // console.log("load 5th");
+                        console.log("load 5th");
                         status = 'I';
                       } else {
                         if (this.tempEmpData.checkin[this.tempEmpData.checkin.length - 1].checkType == 3) {
@@ -172,17 +172,15 @@ export class EmployeesPage {
               }
               if (!this.bLocal || !this.bCountMatch) {
                 console.log("load 6th");
-                var newRec = this.employeeTemp.length;
-                var oldRec =this.employeeList.length;
-                var countRec = newRec - oldRec;
-                for (let i = 0; i < countRec; i++) {
-                  this.employeeList.push(this.employeeTemp[i]);
-                  }
-                // this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
-                console.log("employe list:",this.employeeList);
+                // var newRec = this.employeeTemp.length;
+                // var oldRec =this.employeeList.length;
+                // var countRec = newRec - oldRec;
+                // for (let i = 0; i < countRec; i++) {
+                //   this.employeeList.push(this.employeeTemp[i]);
+                //   }
                 localStorage.removeItem("employeeList");
                 localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeTemp, addedDate: moment().format("YYYY-MM-DD")}));
-                // this.employeeList = this.employeeTemp;
+                this.employeeList = this.employeeTemp;
                 console.log("after set localStorage mploye list:",this.employeeList.firstName);
               }
               else if (this.bLocal || this.bCountMatch) {
@@ -191,9 +189,9 @@ export class EmployeesPage {
                 this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
                 if (this.employeeList.length) {
                   for (var  iterEmp in this.employeeTemp) {
-                    // console.log("load 8th");
+                    console.log("load 8th");
                     for (var innerIterEmp in this.employeeList) {
-                      // console.log("load 9th");
+                      console.log("load 9th");
                       if (this.employeeList[innerIterEmp].employeeNo == this.employeeTemp[iterEmp].employeeNo) {
                         if (this.employeeTemp[iterEmp].dateTime > this.employeeList[innerIterEmp].dateTime) {
                           // console.log("this.employeeTemp[iterEmp].dateTime -->",this.employeeTemp[iterEmp].dateTime,"Name:",this.employeeTemp[iterEmp].firstName);

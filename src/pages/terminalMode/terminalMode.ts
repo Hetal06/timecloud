@@ -232,7 +232,7 @@ export class TerminalModePage {
     localStorage.setItem("emp_sigle_rec", JSON.stringify(employee));
 
     let prompt = this.alertCtrl.create({
-     title: 'Please Enter Passcode',
+     title: employee.firstName +', Please Enter Passcode',
 
      inputs: [
        {

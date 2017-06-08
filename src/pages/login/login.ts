@@ -68,12 +68,6 @@ export class LoginPage {
 
 
 	logForm() {
-		let loadingPopup = this.loadingCtrl.create({
-      content: ''
-    });
-
-		loadingPopup.present();
-
 		this.submitAttempt = true;
 		// this.checkNetworkWithWindow();
 		 if (window.navigator.onLine) {
@@ -83,15 +77,20 @@ export class LoginPage {
 				pwd: this.login.controls.pwd.value
 			}
 			localStorage.setItem("loginPwd",this.data.pwd);
-
+			// let loadingPopup = this.loadingCtrl.create({
+			// 	content: ''
+			// });
+			//
+			// loadingPopup.present();
 			this.http.post(this.LOGIN_URL, this.data, { headers: this.contentHeader })
 				.map(res => res.json())
 				.subscribe(
 				data => {
-				setTimeout(() => {
-					 this.authSuccess(data),
-					 loadingPopup.dismiss();
-				 }, 1000);
+					this.authSuccess(data)
+				// setTimeout(() => {
+				//
+				// 	 loadingPopup.dismiss();
+				//  }, 1000);
 			 },
 				err => this.error = err
 				);
@@ -117,6 +116,7 @@ export class LoginPage {
 		localStorage.setItem("loginToken", data.token);
 		localStorage.setItem("userId", data.user);
 		localStorage.setItem("loginEmail", data.email);
+
 
 
 		if (localStorage.getItem("loginToken")) {

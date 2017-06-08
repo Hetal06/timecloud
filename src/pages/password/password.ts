@@ -61,7 +61,7 @@ export class PasswordPage {
 		this.data = {
 			pwd: this.password.controls.pwd.value
 		}
-		console.log("line 57",this.data.pwd);
+		console.log("line 57",this.data.pwd,"localStorage",this.passwordLocal);
 			if(this.data.pwd == this.passwordLocal){
 				localStorage.setItem("flag", JSON.stringify(flag));
 			 	console.log("line 66",JSON.parse(localStorage.getItem("flag")));
