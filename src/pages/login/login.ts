@@ -45,7 +45,7 @@ export class LoginPage {
 		public platform: Platform,
 		private loadingCtrl: LoadingController
 	) {
-
+		alert("login page");
 		this.login = formBuilder.group({
 			'email': ['', Validators.compose([Validators.required, Validators.minLength(5)])],
 			'pwd': ['', Validators.compose([Validators.required, Validators.minLength(4)])]

@@ -70,12 +70,13 @@ export class EmployeesPage {
 
   constructor(public platform: Platform,private loadingCtrl: LoadingController,public navCtrl: NavController, private offlineService: Offline, private alertCtrl: AlertController, public http: Http, public employeeService: EmployeeServicePage, public params: NavParams) {
     if (localStorage.getItem("loginToken")) {
+      alert("employe page");
         this.loadEmployee();
         this.loadingPopup = this.loadingCtrl.create({
           content: ''
         });
         this.loadingPopup.present();
-        } else {
+    } else {
         this.navCtrl.push(LoginPage);
     }
   }
