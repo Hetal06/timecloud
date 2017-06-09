@@ -45,8 +45,6 @@ export class LoginPage {
 		public http: Http,
 		public platform: Platform,
 		private loadingCtrl: LoadingController
-
-		// private http: Http
 	) {
 
 		this.login = formBuilder.group({
@@ -63,34 +61,19 @@ export class LoginPage {
 		}
 
 	}
-
-
-
-
 	logForm() {
 		this.submitAttempt = true;
-		// this.checkNetworkWithWindow();
 		 if (window.navigator.onLine) {
-
 			this.data = {
 				email: this.login.controls.email.value,
 				pwd: this.login.controls.pwd.value
 			}
 			localStorage.setItem("loginPwd",this.data.pwd);
-			// let loadingPopup = this.loadingCtrl.create({
-			// 	content: ''
-			// });
-			//
-			// loadingPopup.present();
 			this.http.post(this.LOGIN_URL, this.data, { headers: this.contentHeader })
 				.map(res => res.json())
 				.subscribe(
 				data => {
 					this.authSuccess(data)
-				// setTimeout(() => {
-				//
-				// 	 loadingPopup.dismiss();
-				//  }, 1000);
 			 },
 				err => this.error = err
 				);
@@ -102,7 +85,6 @@ export class LoginPage {
 	}
 
 	showAlert() {
-		// console.log("connetion alert call");
 		let alert = this.alertCtrl.create({
 			title: 'No Network',
 			subTitle: 'Please turn on your network connection to use the service !',
@@ -116,7 +98,7 @@ export class LoginPage {
 		localStorage.setItem("loginToken", data.token);
 		localStorage.setItem("userId", data.user);
 		localStorage.setItem("loginEmail", data.email);
-
+		localStorage.setItem("bTerminalMode","false");
 
 
 		if (localStorage.getItem("loginToken")) {

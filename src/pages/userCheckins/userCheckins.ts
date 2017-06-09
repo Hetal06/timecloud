@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController,NavParams,LoadingController ,Platform} from 'ionic-angular';
+import { NavController,NavParams,Platform} from 'ionic-angular';
 import { Http,Headers} from '@angular/http';
 import { EmployeesPage } from '../employees/employees';
 import { TerminalModePage } from '../terminalMode/terminalMode';
@@ -15,7 +15,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 	templateUrl: 'userCheckins.html'
 })
 export class UserCheckinsPage {
-	userInOutRec: any;
+	public userInOutRec: any;
 	public empSingleRec: any;
 	public duplicateStatus :any;
 	public status: any;
@@ -25,7 +25,6 @@ export class UserCheckinsPage {
 	public data: any;
 	public emp_no: any;
 	public checkStatus: any;
-	public old_status: any;
 	public checktype: any;
 	public empStatusUpdate : any;
 	public dateTime: any;
@@ -43,15 +42,13 @@ export class UserCheckinsPage {
 
 	contentHeader: Headers = new Headers({ "Content-Type": "application/json" });
 
-	constructor(public platform: Platform,private geolocation: Geolocation, private googleMaps: GoogleMaps,private loadingCtrl: LoadingController,public http: Http, public navCtrl: NavController, public employeeService: EmployeeServicePage, public params: NavParams) {
+	constructor(public platform: Platform,private geolocation: Geolocation, private googleMaps: GoogleMaps,public http: Http, public navCtrl: NavController, public employeeService: EmployeeServicePage, public params: NavParams) {
 		platform.ready().then(() => {
       this.loadMap();
     });
 		if(localStorage.getItem("loginToken")) {
 			this.empSingleRec = JSON.parse(localStorage.getItem("emp_sigle_rec"));
 			this.emp_no = this.empSingleRec.employeeNo;
-			this.old_status = this.empSingleRec.status;
-			this.date=this.empSingleRec.todayDate;
 			} else {
 			this.navCtrl.push(LoginPage);
 		}
@@ -67,8 +64,6 @@ export class UserCheckinsPage {
  }
 
 	checkInOut(clickUserStatus,clickEmpNo){
-		console.log("this.lat=",this.lat,"this.lon ",this.lon);
-
 	 this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
 	 this.employeeListAddedDate=JSON.parse(localStorage.getItem("employeeList")).addedDate;
 		if (clickUserStatus == 1 || clickUserStatus == 2 || clickUserStatus == 'i' || clickUserStatus == 'I' || clickUserStatus == 'IN') {
@@ -90,10 +85,7 @@ export class UserCheckinsPage {
 			"lat":this.lat,
 			"lon":this.lon
 		}
-		// let loadingPopup = this.loadingCtrl.create({
-		// 	content: ''
-		// });
-		// loadingPopup.present();
+
 		this.http.post('http://192.241.230.86:4000/insertCheckins', this.body, { headers: this.contentHeader })
 						.subscribe(data => {
 							data.json();
@@ -105,7 +97,7 @@ export class UserCheckinsPage {
 								}
 							  localStorage.removeItem("employeeList");
 								localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeList, addedDate: this.employeeListAddedDate}));
-								
+
 								if(localStorage.getItem("bTerminalMode") == "false"){
 										this.navCtrl.push(EmployeesPage);
 								}else if(localStorage.getItem("bTerminalMode") == "true"){
@@ -115,27 +107,13 @@ export class UserCheckinsPage {
 						},error =>{
 							console.log("error");
 						});
-
 	}
 
 	cancleBtn(){
-		// let loadingPopup = this.loadingCtrl.create({
-		// 	content: ''
-		// });
-		// loadingPopup.present();
 		if(localStorage.getItem("bTerminalMode") == "false"){
 				this.navCtrl.push(EmployeesPage);
-			// setTimeout(() => {
-			//
-			// 	loadingPopup.dismiss();
-			//  }, 1000);
-
 		}else if(localStorage.getItem("bTerminalMode") == "true"){
 				this.navCtrl.push(TerminalModePage);
-			// setTimeout(() => {
-			//
-			// 	loadingPopup.dismiss();
-			//  }, 1000);
 		}
 
 	}

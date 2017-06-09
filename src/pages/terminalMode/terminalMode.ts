@@ -34,7 +34,7 @@ import * as moment from 'moment';
 })
 export class TerminalModePage {
   public todayDate: any;
-  public set_selected_status: any;
+  public loadingPopup: any;
   public employees: any;
   public status: any;
   public body;
@@ -82,21 +82,12 @@ export class TerminalModePage {
   selected_EmoNo: any;
 
   constructor(private loadingCtrl: LoadingController,public platform: Platform,public navCtrl: NavController, private offlineService: Offline, private alertCtrl: AlertController, public http: Http, public employeeService: EmployeeServicePage, public params: NavParams) {
-    console.log("line 78",this.userContentHeader);
-    console.log("line 78",this.contentHeader);
-    let loadingPopup = this.loadingCtrl.create({
-      content: ''
-    });
-    loadingPopup.present();
-
     if (localStorage.getItem("loginToken")) {
-      setTimeout(() => {
         this.terminalEmp();
-        loadingPopup.dismiss();
-      }, 2000);
-
-      this.select_status = params.get("selectedStatus");
-      this.selected_EmoNo = params.data.selectedEmpNo;
+        this.loadingPopup = this.loadingCtrl.create({
+          content: ''
+        });
+        this.loadingPopup.present();
     } else {
       this.navCtrl.push(LoginPage);
     }
@@ -112,10 +103,7 @@ export class TerminalModePage {
       dataOfEmp => {
         this.employeeList = [];
         this.employeeTemp = [];
-        this.todayDate = moment().format("YYYY-MM-DD HH:mm:ss");
         this.today = moment().subtract(1, 'day').format("YYYY-MM-DD") + " 00:00:00";
-        localStorage.setItem("TodayDate", this.todayDate);
-
 
         this.http.get(this.GetCheckin_URL, {
           headers: this.contentHeader
@@ -124,9 +112,9 @@ export class TerminalModePage {
           .subscribe(
           dataOfCheckin => {
             this.employeeCheckIns = dataOfCheckin;
+            this.loadingPopup.dismiss();
             this.checkins = [];
 						this.bLocal = false;
-						this.bCountMatch = false;
             if (this.employeeCheckIns.length > 0) {
               if (localStorage.getItem("employeeList")) {
                  if (JSON.parse(localStorage.getItem("employeeList")).addedDate !== moment().format("YYYY-MM-DD") && JSON.parse(localStorage.getItem("employeeList")).addedDate !== undefined) {
@@ -134,11 +122,6 @@ export class TerminalModePage {
                  } else {
                    this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
                     this.bLocal = true;
-                     if (dataOfEmp.EmployeeData.length !== this.employeeList.length) {
-                       this.bCountMatch = false;
-                      } else {
-                       this.bCountMatch = true;
-                      }
                 }
 
               } else {
@@ -184,17 +167,12 @@ export class TerminalModePage {
                   }
                 }
               }
-              if (!this.bLocal || !this.bCountMatch) {
-                var newRec = this.employeeTemp.length;
-                var oldRec =this.employeeList.length;
-                var countRec = newRec - oldRec;
-                for (let i = 0; i < countRec; i++) {
-                  this.employeeList.push(this.employeeTemp[i]);
-                }
+              if (!this.bLocal) {
                 localStorage.removeItem("employeeList");
                 localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeTemp, addedDate: moment().format("YYYY-MM-DD")}));
+                this.employeeList = this.employeeTemp;
               }
-              else if (this.bLocal || this.bCountMatch) {
+              else if (this.bLocal) {
                 this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
                 if (this.employeeList.length) {
                   for (var  iterEmp in this.employeeTemp) {
@@ -205,8 +183,6 @@ export class TerminalModePage {
                           this.employeeList[innerIterEmp].dateTime = this.employeeTemp[iterEmp].dateTime;
                           this.employeeTemp[iterEmp].added = false;
                         }else{
-                          this.employeeList[innerIterEmp].status = this.employeeTemp[iterEmp].status;
-                          this.employeeList[innerIterEmp].dateTime = this.employeeTemp[iterEmp].dateTime;
                           this.employeeTemp[iterEmp].added = false;
                         }
                       }
@@ -219,18 +195,17 @@ export class TerminalModePage {
                     }
                   }
                 }
-                this.employeeList = JSON.parse(localStorage.getItem("employeeList")).empList;
                 localStorage.removeItem("employeeList");
                 localStorage.setItem("employeeList", JSON.stringify({ empList: this.employeeList, addedDate: moment().format("YYYY-MM-DD")}));
               }
             }
-          })
-      })
+          });
+      });
   }
 
+// For Redirect to status Update Page
   inOutFunc(employee) {
     localStorage.setItem("emp_sigle_rec", JSON.stringify(employee));
-
     let prompt = this.alertCtrl.create({
      title: employee.firstName +', Please Enter Passcode',
 
@@ -277,6 +252,5 @@ export class TerminalModePage {
      ]
    });
    prompt.present();
-
   }
 }

@@ -29,6 +29,8 @@ export class PasswordPage {
   public map: any;
 	public passwordLocal:any;
 	public flag : boolean;
+	public loading :any;
+
 
   passwords: {pwd?: string } = {};
 	data: any;
@@ -49,18 +51,17 @@ export class PasswordPage {
 			'pwd': ['', Validators.compose([Validators.required, Validators.minLength(4)])]
 		});
 		this.pwd = this.password.controls['pwd'];
-
-	}
+		}
 
 	passwordForm() {
 		this.passwordLocal = localStorage.getItem("loginPwd");
-
 		this.submitAttempt = true;
 		this.pwd = this.password.controls['pwd'];
 
 		this.data = {
 			pwd: this.password.controls.pwd.value
 		}
+
 		console.log("line 57",this.data.pwd,"localStorage",this.passwordLocal);
 			if(this.data.pwd == this.passwordLocal){
 				localStorage.setItem("flag", JSON.stringify(flag));
@@ -76,16 +77,13 @@ export class PasswordPage {
 	    });
 	    alert.present();
 
-			let loading = this.loadingCtrl.create({
+			this.loading = this.loadingCtrl.create({
 			    content: 'Please wait...'
 			  });
 
-			  loading.present();
-
-			  setTimeout(() => {
-			    loading.dismiss();
-			  }, 5000);
+			  this.loading.present();
 				this.navCtrl.push(PasswordPage);
+				this.loading.dismiss();
 				}
 	}
 }
