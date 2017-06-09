@@ -35,7 +35,6 @@ export class LoginPage {
 	LOGIN_URL: string = "http://192.241.230.86:4000/mobileLogin";
 
 	contentHeader: Headers = new Headers({ "Content-Type": "application/json" });
-	// jwtHelper: JwtHelper = new JwtHelper();
 	error: string;
 	public map: any;
 	constructor(public navCtrl: NavController,
@@ -52,10 +51,8 @@ export class LoginPage {
 			'pwd': ['', Validators.compose([Validators.required, Validators.minLength(4)])]
 		});
 
-
 		this.email = this.login.controls['email'];
 		this.pwd = this.login.controls['pwd'];
-
 		if (localStorage.getItem("loginToken")) {
 			this.navCtrl.push(EmployeesPage);
 		}
@@ -75,9 +72,13 @@ export class LoginPage {
 				data => {
 					this.authSuccess(data)
 			 },
-				err => this.error = err
-				);
-
+				err =>{
+				 	let alert = this.alertCtrl.create({
+					subTitle: 'Invalid Credentials !',
+					buttons: ['OK']
+				});
+				alert.present();
+			});
 		} else {
 			this.showAlert();
 		}
@@ -99,13 +100,10 @@ export class LoginPage {
 		localStorage.setItem("userId", data.user);
 		localStorage.setItem("loginEmail", data.email);
 		localStorage.setItem("bTerminalMode","false");
-
-
 		if (localStorage.getItem("loginToken")) {
 			this.navCtrl.push(EmployeesPage);
-
 		}else{
-			console.info("invalid email and pwd");
+			console.log("invalid email and pwd");
 		}
 	}
 

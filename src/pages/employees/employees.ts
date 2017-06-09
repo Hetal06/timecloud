@@ -5,7 +5,8 @@ import {
   NavController,
   AlertController,
   NavParams,
-  LoadingController
+  LoadingController,
+  Platform
 } from 'ionic-angular';
 import {
   Http,
@@ -67,19 +68,24 @@ export class EmployeesPage {
   select_status: any;
   selected_EmoNo: any;
 
-  constructor(private loadingCtrl: LoadingController,public navCtrl: NavController, private offlineService: Offline, private alertCtrl: AlertController, public http: Http, public employeeService: EmployeeServicePage, public params: NavParams) {
+  constructor(public platform: Platform,private loadingCtrl: LoadingController,public navCtrl: NavController, private offlineService: Offline, private alertCtrl: AlertController, public http: Http, public employeeService: EmployeeServicePage, public params: NavParams) {
     if (localStorage.getItem("loginToken")) {
         this.loadEmployee();
         this.loadingPopup = this.loadingCtrl.create({
           content: ''
         });
         this.loadingPopup.present();
-      } else {
-      this.navCtrl.push(LoginPage);
+        } else {
+        this.navCtrl.push(LoginPage);
     }
   }
 
   loadEmployee() {
+    this.platform.ready().then(() => {
+      this.platform.registerBackButtonAction(() => {
+        this.navCtrl.setRoot(EmployeesPage);
+      });
+ });
     this.employeeService.load().subscribe(
       dataOfEmp => {
         this.employeeList = [];

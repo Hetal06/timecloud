@@ -1,5 +1,5 @@
 import { Component, Injectable } from '@angular/core';
-import { NavController, NavParams, AlertController, Platform,LoadingController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Platform} from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { EmployeesPage } from '../employees/employees';
 // import { Network } from 'ionic-native';
@@ -29,7 +29,6 @@ export class PasswordPage {
   public map: any;
 	public passwordLocal:any;
 	public flag : boolean;
-	public loading :any;
 
 
   passwords: {pwd?: string } = {};
@@ -44,7 +43,6 @@ export class PasswordPage {
 		public alertCtrl: AlertController,
 		public http: Http,
 		public platform: Platform,
-		public loadingCtrl: LoadingController
 	) {
 		this.flag = true;
 		this.password = formBuilder.group({
@@ -61,7 +59,6 @@ export class PasswordPage {
 		this.data = {
 			pwd: this.password.controls.pwd.value
 		}
-
 		console.log("line 57",this.data.pwd,"localStorage",this.passwordLocal);
 			if(this.data.pwd == this.passwordLocal){
 				localStorage.setItem("flag", JSON.stringify(flag));
@@ -76,14 +73,7 @@ export class PasswordPage {
 	      buttons: ['OK']
 	    });
 	    alert.present();
-
-			this.loading = this.loadingCtrl.create({
-			    content: 'Please wait...'
-			  });
-
-			  this.loading.present();
-				this.navCtrl.push(PasswordPage);
-				this.loading.dismiss();
-				}
+			this.navCtrl.push(PasswordPage);
+		}
 	}
 }
