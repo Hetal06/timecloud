@@ -14,7 +14,7 @@
 
 
 .statusBreak{
-	margin: -55px -277px 13px 0;
+	margin: -55px -163px 13px 0;
 	font-size: 1.5rem;
 	color: blueviolet;
 }
@@ -26,7 +26,7 @@
 }
 .setDiv
 {
-	height: 100%;
+	  height: 100%;
     display: block;
     vertical-align: middle;
     align-items: center;
@@ -37,8 +37,8 @@
 }
 .img{
     height:3.8cm;
-	padding-top:80px;
-	padding-right: 4px;
+	  padding-top:80px;
+	  padding-right: 4px;
     max-width: 13%;
 }
 .setSpan{
@@ -57,65 +57,33 @@
     text-underline-position: inherit;
     margin-top: 9.6rem;
     margin-bottom: 4rem;
-    margin-left: -76px;
+    margin-left: 48px;
     font-weight: inherit;
     line-height: 1.2;
 }
 .inBtn{
-    // background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 20px 17px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    margin: 2rem 0rem 0rem -2rem;
+  width: 45px;
+  margin-right: 41px;
 }
 .outBtn{
-    // background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 20px 9px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    margin: 2rem 3rem 0rem -2rem;
-}
+  width: 45px;
+      margin-right: -14px;
+      margin-left: 78px;
+    }
 .endBtn{
-    // background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 20px 28px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    margin: 2rem 2rem 0rem -2rem;
+  width: 111px;
+  margin-left: 16px;
+  margin-right: 24px;
+
 }
 
 .stratBtn{
-  // background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 20px -2px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    margin: 2rem 10rem 0rem 1rem;
+  width: 112px;
+  margin-right: 32px;
+  margin-left: -38px;
 }
 .currentStatus{
-	  margin: -35px 101px -57px 15px;
+	  margin: -35px 84px -57px 15px;
     color: #343434;
     padding-left: 66px;
     height: 25px;
@@ -132,8 +100,8 @@ font-size: 1.5rem;
 
 }
 .cancleBtn{
-  padding: 23px 148px;
-      margin-top: 22px;
-      margin-left: -15px;
+  width: 198px;
+    margin-top: 22px;
+    margin-left: 56px;
 
 }

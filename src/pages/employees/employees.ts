@@ -21,9 +21,7 @@ import {
 import {
   UserCheckinsPage
 } from '../userCheckins/userCheckins';
-import {
-  LoginPage
-} from '../login/login';
+// import {  LoginPage} from '../login/login';
 import * as moment from 'moment';
 @Component({
   selector: 'page-employees',
@@ -69,16 +67,18 @@ export class EmployeesPage {
   selected_EmoNo: any;
 
   constructor(public platform: Platform,private loadingCtrl: LoadingController,public navCtrl: NavController, private offlineService: Offline, private alertCtrl: AlertController, public http: Http, public employeeService: EmployeeServicePage, public params: NavParams) {
-    if (localStorage.getItem("loginToken")) {
-      alert("employe page");
+    // if (localStorage.getItem("loginToken")) {
+      // alert("employe page");
+      // console.log("employe page call 1");
         this.loadEmployee();
         this.loadingPopup = this.loadingCtrl.create({
           content: ''
         });
         this.loadingPopup.present();
-    } else {
-        this.navCtrl.push(LoginPage);
-    }
+        // console.log("employe page call 2");
+    // } else {
+    //     this.navCtrl.push(LoginPage);
+    // }
   }
 
   loadEmployee() {

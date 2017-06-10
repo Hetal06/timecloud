@@ -1,5 +1,5 @@
 import { Component, Injectable } from '@angular/core';
-import { NavController, NavParams, AlertController, Platform,LoadingController } from 'ionic-angular';
+import { NavController, NavParams, AlertController,ToastController, Platform,LoadingController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { EmployeesPage } from '../employees/employees';
 
@@ -28,6 +28,8 @@ export class LoginPage {
 	public submitAttempt: boolean = false;
 	public networkState: any;
 	public states: any;
+	public alert:any;
+
 	logins: { email?: string, pwd?: string } = {};
 	data: any;
 	user: String;
@@ -43,21 +45,37 @@ export class LoginPage {
 		public alertCtrl: AlertController,
 		public http: Http,
 		public platform: Platform,
-		private loadingCtrl: LoadingController
+		private loadingCtrl: LoadingController,
+		private toastCtrl:   ToastController
 	) {
-		alert("login page");
+
+		platform.ready().then(() => {
+			console.log("canGoBack(1)");
+      platform.registerBackButtonAction(() => {
+				console.log("canGoBack(2)");
+				this.exitAlert();
+        });
+    });
+
 		this.login = formBuilder.group({
 			'email': ['', Validators.compose([Validators.required, Validators.minLength(5)])],
 			'pwd': ['', Validators.compose([Validators.required, Validators.minLength(4)])]
 		});
-
+		console.log("login page call 1");
 		this.email = this.login.controls['email'];
 		this.pwd = this.login.controls['pwd'];
+		console.log("login page call 2");
 		if (localStorage.getItem("loginToken")) {
+			console.log("login page call 3");
 			this.navCtrl.push(EmployeesPage);
+			console.log("login page call 4");
 		}
-
+		// else{
+		// 	this.navCtrl.push(EmployeesPage);
+		// }
 	}
+
+
 	logForm() {
 		this.submitAttempt = true;
 		 if (window.navigator.onLine) {
@@ -94,6 +112,7 @@ export class LoginPage {
 		alert.present();
 	}
 
+
 	authSuccess(data) {
 		this.error = null;
 		localStorage.setItem("loginToken", data.token);
@@ -106,5 +125,27 @@ export class LoginPage {
 			console.log("invalid email and pwd");
 		}
 	}
+	exitAlert() {
+			this.alert = this.alertCtrl.create({
+				title: 'Exit?',
+				message: 'Do you want to exit the app?',
+				buttons: [
+					{
+						text: 'Cancel',
+						role: 'cancel',
+						handler: () => {
+							this.alert =null;
+						}
+					},
+					{
+						text: 'Exit',
+						handler: () => {
+							this.platform.exitApp();
+						}
+					}
+				]
+			});
+			this.alert.present();
+		}
 
 }
